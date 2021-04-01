@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import { HomePage } from '../components/home/home'
-import { PokemonsInfoProvider } from "../hooks/PokeContext";
-import { PokemonsImgProvider } from "../hooks/PokeImages";
+import { HomePage } from '../src/components/home/home'
+import { PokemonsInfoProvider } from "../src/hooks/PokeContext";
+import { PokemonsImgProvider } from "../src/hooks/PokeImages";
 
 
 

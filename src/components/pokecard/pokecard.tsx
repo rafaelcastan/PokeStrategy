@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
 import { usePokemonsImg } from "../../hooks/PokeImages";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner, faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import { Container } from "./styles";
+import {Img} from 'react-image'
 
 interface PokeCardProps{
     PokeInfo:{
@@ -51,7 +53,12 @@ export function PokeCard ({PokeInfo}:PokeCardProps){
 
     return(
     <Container>
-        <img src={GetPokemonImg({PokeInfo:{name:PokeInfo.name, type:'officialArtwork'}})} alt={`${PokeInfo.name} sprite `}/>
+        <Img className="Image" src={GetPokemonImg({PokeInfo:{name:PokeInfo.name, type:'officialArtwork'}})} 
+        alt={`${PokeInfo.name} sprite `} 
+        loader={<FontAwesomeIcon icon={faSpinner} size="lg"/>}
+        unloader={<FontAwesomeIcon icon={faFileExcel}/>}
+        key={Date.now()}
+        loading="lazy"/>
         <span>{PokeInfo.name}</span>
     </Container>
     )

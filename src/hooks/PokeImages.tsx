@@ -60,7 +60,6 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                         }
                         else{
                             ImgUrl=response.sprites.front_default
-                            console.log(ImgUrl)
                             setPokeImg2(ImgUrl)
                         }
                         
@@ -76,7 +75,6 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                         }
                         else{
                             ImgUrl=response.sprites.front_default
-                            console.log(ImgUrl)
                             setPokeImg2(ImgUrl)
                         }
                     })

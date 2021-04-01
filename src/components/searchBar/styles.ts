@@ -1,35 +1,67 @@
 import styled from 'styled-components';
 
+export const NavBar = styled.div`
+    width:100%;
+    height:6rem;
+    background:#696969;
+    display:flex;
+    flex-direction:row;
+    align-content:center;
+    justify-content:space-around;
+`;
+
 export const Container = styled.form`
     
     display:flex;
-    align-self:center;
     flex-direction:row;
-    align-content:center;
     border: solid;
     border-radius:1rem;
     overflow:hidden;
+    max-width:58%;
     width:40rem;
     height:3rem;
     background:#A9A9A9;
+    align-self:center;
 
     
 
     .Sugestions{
-        width:35.5rem;
+        max-width:60%;
+        width:36rem;
         position:absolute;
-        background:#A9A9A9;
-        margin-left:0.88rem;
-        margin-top:3.01rem;
+        background:rgba(169, 169, 169, 0.95);
+        margin-top:2.7rem;
         text-transform: capitalize;
+        display:flex;
+        flex-direction:column;
+        align-content:center;
+        z-index:0;
+        border-radius:0.1rem;
+        max-height:40%;
+        overflow:scroll;
+        overflow-x: hidden;
+
+        div{
+            display:flex;
+            flex-direction:row;
+        }
+
+        .Images{
+            order: 2;
+            max-width:5rem;
+            align-self:center;
+        }
     }
 
     span{
         font-size: 1.5rem;
+        margin-left:1.5rem;
+        margin-right:0.5rem;
+        align-self:center;
     }
 
     button{
-        width:10%;
+        width:4rem;
         border: none;
         cursor: pointer;
         background:#696969;
@@ -42,6 +74,7 @@ export const Container = styled.form`
         background:#A9A9A9;
         height:100%;
         margin-left:0.8rem;
+        z-index:1;
 
         &:focus{
             box-shadow: 0 0 0 0;

@@ -1,23 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faSpinner, faFileExcel } from '@fortawesome/free-solid-svg-icons';
-import {Img} from 'react-image'
-import VisibilitySensor from 'react-visibility-sensor'
+import {Img} from 'react-image';
 
 
-import { Container } from "./styles";
+import { Container,NavBar } from "./styles";
 import { usePokemonsInfo } from "../../hooks/PokeContext";
-import { usePokemonsImg } from "../../hooks/PokeImages";
 
 export function SearchBar(){
     const { capitalizeFirstLetter, fullPokedex} = usePokemonsInfo();
-    const { GetPokemonImg } = usePokemonsImg();
     const [display, setDisplay] = useState(false);;
     const [search, setSearch] = useState("");
     const wrapperRef = useRef(null);    
     const pokeGif = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/`;
     const pokeSprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
-        
+
 
     function setSearchValue (Pokemon:string){
         setSearch(Pokemon);
@@ -40,8 +37,8 @@ export function SearchBar(){
     }
     
     return(
+        <NavBar>
         <Container>
-                
                 <input type="text" 
                 placeholder="Search.." 
                 value={search}
@@ -66,20 +63,22 @@ export function SearchBar(){
                                         key={index}
                                         >
                                     <span>{capitalizeFirstLetter(values)}</span>
-                                    <VisibilitySensor>
-                                        <Img src={[`${pokeGif+(fullPokedex.indexOf(values)+1)}.gif`, 
-                                                   `${pokeSprite+(fullPokedex.indexOf(values)+9103)}.png`]}
-                                        loader={<FontAwesomeIcon icon={faSpinner} size="lg"/>}
-                                        unloader={<FontAwesomeIcon icon={faFileExcel}/>}/>
-                                    </VisibilitySensor>    
+                                        <Img className="Images" 
+                                        src={[`${pokeGif+(fullPokedex.indexOf(values)+1)}.gif`, 
+                                              `${pokeSprite+(fullPokedex.indexOf(values)+9103)}.png`,
+                                              `${pokeSprite+(fullPokedex.indexOf(values)+1)}.png`]}
+                                        loader={<FontAwesomeIcon icon={faSpinner} size="sm"/>}
+                                        unloader={<FontAwesomeIcon icon={faFileExcel}/>}
+                                        key={Date.now()}
+                                        loading="lazy"/>
                                 </div>
                             })}
                         </div>
                     )}
-                    <button type="submit"><FontAwesomeIcon icon={faSearch} size="lg" /></button>
-            
+                    <button type="submit"><FontAwesomeIcon icon={faSearch}  size="lg"/></button>
             
         </Container>
+        </NavBar>
         
     )
 }
