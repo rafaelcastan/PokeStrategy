@@ -69,8 +69,9 @@ export function SearchBar(){
                                     <VisibilitySensor>
                                         <Img src={[`${pokeGif+(fullPokedex.indexOf(values)+1)}.gif`, 
                                                    `${pokeSprite+(fullPokedex.indexOf(values)+9103)}.png`]}
-                                        loader={<FontAwesomeIcon icon={faSpinner} size="lg"/>}/>
-                                        unloader={<FontAwesomeIcon icon={faFileExcel}/>}
+                                        loader={<FontAwesomeIcon icon={faSpinner} size="lg"/>}
+                                        unloader={<FontAwesomeIcon icon={faFileExcel}/>}/>
+                                        
                                     </VisibilitySensor>    
                                                        
                                     <span>{fullPokedex.indexOf(values)}</span>
