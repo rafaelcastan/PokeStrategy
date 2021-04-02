@@ -30,7 +30,7 @@ export const NavBar = styled.div`
         .Pokemon{
             position:fixed;
             right:15%;
-            top:2%;
+            top:0.5%;
             max-width:9rem;
             @media (max-width:1205px){
                 right:5%;

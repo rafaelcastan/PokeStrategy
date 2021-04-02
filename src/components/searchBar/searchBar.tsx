@@ -13,8 +13,9 @@ export function SearchBar(){
     const [displaySugestion, setDisplaySugestion] = useState(false);
     const [search, setSearch] = useState("");
     const [mobileView, setMobileView] = useState(false);
-    const [pokeId, setPokeId] = useState(Math.floor(Math.random() * 649));
+    const [pokeId, setPokeId] = useState(1);
     const [autoCompleteSearch, setAutoCompleteSearch] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const wrapperRef = useRef(null);    
     const pokeGif = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/`;
     const pokeSprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
@@ -36,6 +37,8 @@ export function SearchBar(){
 
     useEffect(()=>{
         document.addEventListener('mouseup', handleClickOutside);
+        setPokeId(Math.floor(Math.random() * 649));
+        setMounted(true);
         const setNavInnerHTML = (html) => {
             const nav = document.querySelector('nav');
             nav.innerHTML = html;
@@ -105,6 +108,7 @@ export function SearchBar(){
                 <PokedexIcon className="Icon" style={{width:'4.8rem'}}/>
                 <span className="IconName" hidden={!mobileView}>StrategyDex</span>
                 <img 
+                hidden={!mounted}
                 className="Pokemon"
                 src={`${randomPoke+pokeId}.gif`}/>
                 

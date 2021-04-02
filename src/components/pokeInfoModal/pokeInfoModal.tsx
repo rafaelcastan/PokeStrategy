@@ -1,12 +1,19 @@
 import Modal from 'react-modal';
 
-export function PokeInfoModal(){
+interface PokeInfoModalProps{
+    isOpen:boolean;
+    onRequestClose:() => void;
+}
+
+export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
+
+
 
     return(
-        <Modal isOpen={true} 
-               overlayClassName="react-modal-overlay"
-               className="react-modal-content"
+        <Modal isOpen={isOpen} 
+               onRequestClose={onRequestClose}
         >
+            <h1>Teste</h1>
         </Modal>
     )
 }
