@@ -2,9 +2,7 @@ import {createGlobalStyle} from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
     body{
-        background:grey;
-
-        
+        background:grey;        
     }
 
     *{
@@ -21,7 +19,6 @@ export const GlobalStyle = createGlobalStyle`
     /* Apply 'spinner' keyframes looping once every second (1s)  */
     animation: spinner 1s linear infinite;
     }
-
 
     html {
        @media (max-width:1080px){

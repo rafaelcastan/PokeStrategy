@@ -6,23 +6,45 @@ import {Img} from 'react-image';
 
 import { Container,NavBar } from "./styles";
 import { usePokemonsInfo } from "../../hooks/PokeContext";
+import PokedexIcon from '../../assets/pokedex.svg';
 
 export function SearchBar(){
     const { capitalizeFirstLetter, fullPokedex} = usePokemonsInfo();
-    const [display, setDisplay] = useState(false);;
+    const [displaySugestion, setDisplaySugestion] = useState(false);
     const [search, setSearch] = useState("");
+    const [mobileView, setMobileView] = useState(false);
+    const [pokeId, setPokeId] = useState(Math.floor(Math.random() * 649));
+    const [autoCompleteSearch, setAutoCompleteSearch] = useState(false);
     const wrapperRef = useRef(null);    
     const pokeGif = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/`;
     const pokeSprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+    const randomPoke = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/';
+    
 
 
     function setSearchValue (Pokemon:string){
+        setAutoCompleteSearch(true);
         setSearch(Pokemon);
-        setDisplay(false);
+        setDisplaySugestion(false);        
     }
+    
+    useEffect(()=>{
+        if(autoCompleteSearch){
+            setAutoCompleteSearch(false);
+        }
+    },[autoCompleteSearch])
 
     useEffect(()=>{
         document.addEventListener('mouseup', handleClickOutside);
+        const setNavInnerHTML = (html) => {
+            const nav = document.querySelector('nav');
+            nav.innerHTML = html;
+
+          };
+          if (typeof window !== 'undefined') {
+            const mql = window.matchMedia('(min-width: 1280px)');
+            setMobileView(mql.matches);
+          }
 
         return()=>{
             document.removeEventListener('mouseup', handleClickOutside);
@@ -32,29 +54,29 @@ export function SearchBar(){
     const handleClickOutside = event =>{
         const {current : wrap} = wrapperRef;
         if(wrap && !wrap.contains(event.target)){
-            setDisplay(false);
+            setDisplaySugestion(false);
         }
     }
     
     return(
         <NavBar>
-        <Container>
+        <Container onSubmit={()=>console.log('foi')}>
                 <input type="text" 
-                placeholder="Search.." 
+                placeholder="Search..." 
                 value={search}
                 onClick={()=>{
-                    setDisplay(true)
+                    setDisplaySugestion(true)
                 }}
-                onKeyUp={event=> event.key === 'Escape' && setDisplay(false)}
+                onKeyUp={event=> event.key === 'Escape' && setDisplaySugestion(false)}
                 onChange={event=>{
-                    setDisplay(true)
+                    setDisplaySugestion(true)
                     setSearch(event.target.value)
                     
                 }}
                 />
-                    {display && (
+                    {displaySugestion && (
                         <div className="Sugestions">
-                            {fullPokedex.filter((name)=> name.indexOf(search.toLowerCase()) > -1 ).splice(0,13).map((values, index) =>{
+                            {fullPokedex.filter((name)=> name.indexOf(search.toLowerCase()) > -1 ).splice(0,150).map((values, index) =>{
                                 return <div
                                         onMouseDown={()=>setSearchValue(capitalizeFirstLetter(values))}
                                         onKeyPress={event=> event.key === 'Enter'
@@ -64,7 +86,7 @@ export function SearchBar(){
                                         key={index}
                                         >
                                     <span>{capitalizeFirstLetter(values)}</span>
-                                        <Img className="Images" 
+                                        <Img className="SugestionsImages" 
                                         src={[`${pokeGif+(fullPokedex.indexOf(values)+1)}.gif`, 
                                               `${pokeSprite+(fullPokedex.indexOf(values)+9103)}.png`,
                                               `${pokeSprite+(fullPokedex.indexOf(values)+1)}.png`]}
@@ -79,6 +101,13 @@ export function SearchBar(){
                     <button type="submit"><FontAwesomeIcon icon={faSearch}  size="lg"/></button>
             
         </Container>
+        
+                <PokedexIcon className="Icon" style={{width:'4.8rem'}}/>
+                <span className="IconName" hidden={!mobileView}>StrategyDex</span>
+                <img 
+                className="Pokemon"
+                src={`${randomPoke+pokeId}.gif`}/>
+                
         </NavBar>
         
     )

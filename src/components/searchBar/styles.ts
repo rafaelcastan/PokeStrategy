@@ -10,6 +10,34 @@ export const NavBar = styled.div`
     justify-content:space-around;
     position: fixed;
     top: 0;
+
+    .Icon{
+            width:4.8rem; 
+            position:fixed;
+            left:1%;
+            top:1%;
+        }
+        .IconName{
+            font-size:2rem;
+            position:fixed;
+            left:6.8%;
+            top:3%;
+            @media (min-width:1800px){
+                left:5.5%;
+            }
+        }
+
+        .Pokemon{
+            position:fixed;
+            right:15%;
+            top:2%;
+            max-width:9rem;
+            @media (max-width:1205px){
+                right:5%;
+                top:1%;
+                max-width:3.8rem;
+            }
+        }
 `;
 
 export const Container = styled.form`
@@ -54,7 +82,7 @@ export const Container = styled.form`
             flex-direction:row;
         }
 
-        .Images{
+        .SugestionsImages{
             order: 2;
             max-width:5rem;
             align-self:center;

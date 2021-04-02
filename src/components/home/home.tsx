@@ -6,53 +6,34 @@ import { PokeCard } from "../pokecard/pokecard"
 
 import { usePokemonsInfo } from "../../hooks/PokeContext";
 import { SearchBar } from '../searchBar/searchBar';
-import PokedexIcon from '../../assets/pokedex.svg';
-import { useEffect, useState } from 'react';
+import { useEffect} from 'react';
 import React from 'react';
+import { PokeInfoModal } from "../pokeInfoModal/pokeInfoModal";
 
 
 
 export function HomePage (){
     const { pokedex, GetMorePokemons } = usePokemonsInfo();
-    const [pokeId, setPokeId] = useState(1);
-    const [mobileView, setMobileView] = useState(false);
-    const randomPoke = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/';
     let mounted = false;
         
     useEffect(()=>{
         mounted = true;
-        const setNavInnerHTML = (html) => {
-            const nav = document.querySelector('nav');
-            nav.innerHTML = html;
-
-          };
-          if (typeof window !== 'undefined') {
-            const mql = window.matchMedia('(min-width: 1280px)');
-            setMobileView(mql.matches);
-            setPokeId(Math.floor(Math.random() * 649))
-          }
     },[])
       
     return (
         <Container>
             {!mounted && (
                 <>
-                <SearchBar/>
-                <PokedexIcon className="Icon" style={{width:'4.8rem'}}/>
-                <span className="IconName" hidden={!mobileView}>StrategyDex</span>
-                <img 
-                className="Pokemon"
-                src={`${randomPoke+pokeId}.gif`}/>
+            <SearchBar/>
             <InfiniteScroll loader={<h4></h4>}  hasMore={true} next={GetMorePokemons} dataLength={pokedex.length}>
                 <PokeCardsContainer>
                 {pokedex.map((Pokes, i)=>(
                     <PokeCard key={i} PokeInfo={{name:Pokes}}/>
                 ))}
                 </PokeCardsContainer>
-            </InfiniteScroll>)
+            </InfiniteScroll>
             </>)
             }
-                
         </Container>
     )
 }

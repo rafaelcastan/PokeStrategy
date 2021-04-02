@@ -10,7 +10,7 @@ export default function Home() {
     <PokemonsInfoProvider>
       <PokemonsImgProvider>
     <Head>
-      <title>PokeStrategy</title>
+      <title>StrategyDex</title>
     </Head>
     <HomePage/>
     </PokemonsImgProvider>

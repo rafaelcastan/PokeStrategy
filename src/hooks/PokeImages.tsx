@@ -46,7 +46,6 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                         GetOfficialArtworkUrl=Object.values(response.sprites.other)
                         ImgUrl=GetOfficialArtworkUrl[1].front_default
                         setPokeImg2(ImgUrl)
-                        
                     })
                 }
                 else{
