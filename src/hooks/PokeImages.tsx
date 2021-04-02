@@ -38,30 +38,14 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'officialArtwork':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly') //Gastly has a error, so I have to do this
+                    if(PokeInfo.name==='gastly' || PokeInfo.name==='vespiquen' || PokeInfo.name==='raikou') //Pokemons that have an error, so I have to do this
                 {
-                    fetch('https://pokeapi.co/api/v2/pokemon/gastly')
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${PokeInfo.name}`)
                     .then(response=>response.json())
                     .then(response=>{
                         GetOfficialArtworkUrl=Object.values(response.sprites.other)
                         ImgUrl=GetOfficialArtworkUrl[1].front_default
                         setPokeImg2(ImgUrl)
-                        
-                    })
-                }
-                else if(PokeInfo.name==='vespiquen'){ //Vespiquen has a error, so I have to do this
-                    fetch('https://pokeapi.co/api/v2/pokemon/vespiquen')
-                    .then(response=>response.json())
-                    .then(response=>{
-                        GetOfficialArtworkUrl=Object.values(response.sprites.other)
-                        if(GetOfficialArtworkUrl[1].front_default!==null){
-                            ImgUrl=GetOfficialArtworkUrl[1].front_default
-                            setPokeImg2(ImgUrl)
-                        }
-                        else{
-                            ImgUrl=response.sprites.front_default
-                            setPokeImg2(ImgUrl)
-                        }
                         
                     })
                 }

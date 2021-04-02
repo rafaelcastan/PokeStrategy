@@ -8,6 +8,8 @@ export const NavBar = styled.div`
     flex-direction:row;
     align-content:center;
     justify-content:space-around;
+    position: fixed;
+    top: 0;
 `;
 
 export const Container = styled.form`
@@ -30,16 +32,22 @@ export const Container = styled.form`
         width:36rem;
         position:absolute;
         background:rgba(169, 169, 169, 0.95);
-        margin-top:2.7rem;
+        margin-top:2.8rem;
+        margin-left:1rem;
         text-transform: capitalize;
         display:flex;
         flex-direction:column;
         align-content:center;
         z-index:0;
         border-radius:0.1rem;
-        max-height:40%;
+        max-height:35rem;
         overflow:scroll;
         overflow-x: hidden;
+
+        @media (max-width:1021px){
+            margin-left:0rem;
+            max-width:53%;
+        }
 
         div{
             display:flex;
@@ -50,6 +58,10 @@ export const Container = styled.form`
             order: 2;
             max-width:5rem;
             align-self:center;
+
+            &:hover{
+                cursor:pointer;
+            }
         }
     }
 
@@ -58,6 +70,10 @@ export const Container = styled.form`
         margin-left:1.5rem;
         margin-right:0.5rem;
         align-self:center;
+
+        &:hover{
+                cursor:pointer;
+            }
     }
 
     button{
@@ -84,13 +100,6 @@ export const Container = styled.form`
 
         
     }
-    /* Define an animation behavior */
-@keyframes spinner {
-  to { transform: rotate(360deg); }
-}
-/* This is the class name given by the Font Awesome component when icon contains 'spinner' */
-.fa-spinner {
-  /* Apply 'spinner' keyframes looping once every second (1s)  */
-  animation: spinner 1s linear infinite;
-}
+   
+
 `;

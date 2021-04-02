@@ -49,6 +49,7 @@ export function SearchBar(){
                 onChange={event=>{
                     setDisplay(true)
                     setSearch(event.target.value)
+                    
                 }}
                 />
                     {display && (

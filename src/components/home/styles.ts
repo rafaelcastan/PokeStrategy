@@ -5,17 +5,28 @@ export const Container = styled.div`
         display:flex;
         flex-direction:column;
 
-        .Teste{
+        .Icon{
             width:4.8rem; 
-            position:absolute;
+            position:fixed;
             left:1%;
             top:1%;
         }
-        .Teste2{
+        .IconName{
             font-size:2rem;
-            position:absolute;
-            left:6%;
+            position:fixed;
+            left:6.7%;
             top:3%;
+        }
+
+        .Pokemon{
+            position:fixed;
+            right:15%;
+            top:2%;
+            width:4rem;
+        }
+
+        .infinite-scroll-component{
+            margin-top:6rem;
         }
 `;
 

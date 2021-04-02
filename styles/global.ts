@@ -12,13 +12,24 @@ export const GlobalStyle = createGlobalStyle`
        padding:0;
        box-sizing: border-box;
    }
+    /* Define an animation behavior */
+   @keyframes spinner {
+    to { transform: rotate(360deg); }
+    }
+    /* This is the class name given by the Font Awesome component when icon contains 'spinner' */
+    .fa-spinner {
+    /* Apply 'spinner' keyframes looping once every second (1s)  */
+    animation: spinner 1s linear infinite;
+    }
 
 
     html {
        @media (max-width:1080px){
            font-size:93.75%;
        }
-
+       @media (max-width:637px){
+           font-size:52%;
+       }
    }
    //Scrollbar edits
 
