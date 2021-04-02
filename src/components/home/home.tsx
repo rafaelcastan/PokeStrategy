@@ -1,8 +1,8 @@
+import { Container,PokeCardsContainer } from "./styles"
 import InfiniteScroll from 'react-infinite-scroll-component';
-import dynamic from 'next/dynamic';
 
 import { PokeCard } from "../pokecard/pokecard"
-import { Container,PokeCardsContainer } from "./styles"
+
 
 import { usePokemonsInfo } from "../../hooks/PokeContext";
 import { SearchBar } from '../searchBar/searchBar';
@@ -38,13 +38,11 @@ export function HomePage (){
             {!mounted && (
                 <>
                 <SearchBar/>
-                <PokedexIcon className="Icon" />
-                <div hidden={!mobileView}>
-                <span className="IconName">StrategyDex</span>
-                <img  
+                <PokedexIcon className="Icon" style={{width:'4.8rem'}}/>
+                <span className="IconName" hidden={!mobileView}>StrategyDex</span>
+                <img 
                 className="Pokemon"
                 src={`${randomPoke+pokeId}.gif`}/>
-                </div>
             <InfiniteScroll loader={<h4></h4>}  hasMore={true} next={GetMorePokemons} dataLength={pokedex.length}>
                 <PokeCardsContainer>
                 {pokedex.map((Pokes, i)=>(

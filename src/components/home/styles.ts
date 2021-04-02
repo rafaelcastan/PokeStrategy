@@ -14,14 +14,22 @@ export const Container = styled.div`
         .IconName{
             font-size:2rem;
             position:fixed;
-            left:6.7%;
+            left:6.8%;
             top:3%;
+            @media (min-width:1800px){
+                left:5%;
+            }
         }
 
         .Pokemon{
             position:fixed;
             right:15%;
+            top:2%;
             width:5rem;
+
+            @media (max-width:1205px){
+                right:5%;
+            }
         }
 
         .infinite-scroll-component{
