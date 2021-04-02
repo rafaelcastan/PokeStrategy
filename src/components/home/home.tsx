@@ -17,8 +17,10 @@ export function HomePage (){
     const [pokeId, setPokeId] = useState(1);
     const [mobileView, setMobileView] = useState(false);
     const randomPoke = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/';
+    let mounted = false;
         
     useEffect(()=>{
+        mounted = true;
         const setNavInnerHTML = (html) => {
             const nav = document.querySelector('nav');
             nav.innerHTML = html;
@@ -33,6 +35,8 @@ export function HomePage (){
       
     return (
         <Container>
+            {!mounted && (
+                <>
                 <SearchBar/>
                 <PokedexIcon className="Icon" />
                 <div hidden={!mobileView}>
@@ -41,16 +45,16 @@ export function HomePage (){
                 className="Pokemon"
                 src={`${randomPoke+pokeId}.gif`}/>
                 </div>
-
-                
-                
             <InfiniteScroll loader={<h4></h4>}  hasMore={true} next={GetMorePokemons} dataLength={pokedex.length}>
                 <PokeCardsContainer>
                 {pokedex.map((Pokes, i)=>(
                     <PokeCard key={i} PokeInfo={{name:Pokes}}/>
                 ))}
                 </PokeCardsContainer>
-            </InfiniteScroll>
+            </InfiniteScroll>)
+            </>)
+            }
+                
         </Container>
     )
 }

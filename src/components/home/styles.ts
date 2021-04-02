@@ -21,8 +21,7 @@ export const Container = styled.div`
         .Pokemon{
             position:fixed;
             right:15%;
-            top:2%;
-            width:4rem;
+            width:5rem;
         }
 
         .infinite-scroll-component{
