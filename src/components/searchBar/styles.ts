@@ -10,6 +10,7 @@ export const NavBar = styled.div`
     justify-content:space-around;
     position: fixed;
     top: 0;
+    z-index:90;
 
     .Icon{
             width:4.8rem; 
@@ -29,13 +30,13 @@ export const NavBar = styled.div`
 
         .Pokemon{
             position:fixed;
-            right:15%;
-            top:0.5%;
-            max-width:9rem;
+            right:20%;
+            top:1rem;
+            max-width:5rem;
             @media (max-width:1205px){
                 right:5%;
                 top:1%;
-                max-width:3.8rem;
+                max-width:5rem;
             }
         }
 `;

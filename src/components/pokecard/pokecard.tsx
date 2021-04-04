@@ -14,6 +14,8 @@ interface PokeCardProps{
 export function PokeCard ({PokeInfo,ModalOpen}:PokeCardProps){
     const { GetPokemonImg } = usePokemonsImg();
     const imgError =  'https://1.bp.blogspot.com/_KBmmkCxTLY8/TMBfCU6xtBI/AAAAAAAAAFI/Ia5W4Suucww/s1600/kawax-pokeball-3097.png';
+    console.log(PokeInfo.name)
+
     return(
     <Container onClick={()=>ModalOpen()}>
         <Img className="Image"  

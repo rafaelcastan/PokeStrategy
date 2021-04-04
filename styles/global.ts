@@ -2,7 +2,8 @@ import {createGlobalStyle} from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
     body{
-        background:grey;        
+        background:grey;    
+        overflow:hidden;
     }
 
     *{
@@ -21,6 +22,10 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     html {
+        width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
        @media (max-width:1080px){
            font-size:93.75%;
        }

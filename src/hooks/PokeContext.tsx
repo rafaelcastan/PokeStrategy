@@ -4,10 +4,13 @@ interface PokemonsInfoProviderProps {
     children: ReactNode;
 }
 
-
+interface PokedexProps {
+    name:string,
+    id:number
+}
 
 interface PokemonsInfoContextData{
-    pokedex: string[];
+    pokedex: PokedexProps[];
     fullPokedex: string[];
     GetMorePokemons:()=>void;
     capitalizeFirstLetter:(string)=>string;
@@ -22,14 +25,12 @@ const PokemonsInfoContext = createContext<PokemonsInfoContextData>(
         return string.charAt(0).toUpperCase() + string.slice(1);
       }
 
-    function addPokemon (string) {
-        return string;
-    }
 
 export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
-    const [pokedex, setPokedex] = useState<string[]>([]);
+    const [pokedex, setPokedex] = useState<PokedexProps[]>([]);
     const [fullPokedex, setFullPokedex] = useState<string[]>([]);
     const [interval, setInterval] = useState({limit: 32,offset: 0})
+    const [id, setId] = useState(0);
     var PokeDB = require('pokedex-promise-v2');
     var PokeSearch = new PokeDB();
  
@@ -45,41 +46,46 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     }
 
     useEffect(()=>{
-        PokeSearch.getPokemonsList(interval) //Return a  Promise
+        PokeSearch.getPokemonsList(interval) //Return a  Promise with a range of pokemons
         .then(function(response) {
             let PokemonsMaped = [];
-            response.results.map(response=>{
-                PokemonsMaped=[...PokemonsMaped, addPokemon(response.name)]     
-            })
+            let ident=id;
+            response.results.map(response =>{
+                PokemonsMaped=[...PokemonsMaped, {name:response.name,id:ident}] 
+                ident++;
+            })  
             setPokedex([...pokedex,...PokemonsMaped])
+            setId(ident)
+            offsetChange();
     })
     .catch(function(error) {
         console.log('There was an ERROR: ', error);
     });
 
-    PokeSearch.getPokemonsList() //Return a  Promise
+    PokeSearch.getPokemonsList() //Return a  Promise with all pokemons
     .then(function(response) {
         let PokemonsMaped = [];
         response.results.map(response=>{
-            PokemonsMaped=[...PokemonsMaped, addPokemon(response.name)]     
+            PokemonsMaped=[...PokemonsMaped, (response.name)]     
         })
         setFullPokedex(PokemonsMaped)
-        
-        offsetChange();
     })
     .catch(function(error) {
         console.log('There was an ERROR: ', error);
     });
     },[])
 
-    function GetMorePokemons (){
-        PokeSearch.getPokemonsList(interval) //Return a  Promise
+    function GetMorePokemons (){ //Return a  Promise with limited pokemons when called
+        PokeSearch.getPokemonsList(interval) 
     .then(function(response) {
         let PokemonsMaped = [];
+        let iden = id;
         response.results.map(response=>{
-            PokemonsMaped=[...PokemonsMaped, addPokemon(response.name)]     
+            PokemonsMaped=[...PokemonsMaped, {name:response.name, id:iden}]   
+            iden++;  
         })
         setPokedex([...pokedex,...PokemonsMaped])
+        setId(iden)
         offsetChange();
     })
     .catch(function(error) {

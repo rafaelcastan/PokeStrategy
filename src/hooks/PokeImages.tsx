@@ -38,14 +38,27 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'officialArtwork':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly' || PokeInfo.name==='vespiquen' || PokeInfo.name==='raikou') //Pokemons that have an error, so I have to do this
+                    if(PokeInfo.name==='gastly' || 
+                       PokeInfo.name==='vespiquen' || 
+                       PokeInfo.name==='raikou' || 
+                       PokeInfo.name === 'coalossal' ||
+                       PokeInfo.name === 'impidimp' ||
+                       PokeInfo.name === 'drakloak' ||
+                       PokeInfo.name === 'zacian-hero') //Pokemons that have an error, so I have to do this
                 {
                     fetch(`https://pokeapi.co/api/v2/pokemon/${PokeInfo.name}`)
                     .then(response=>response.json())
                     .then(response=>{
                         GetOfficialArtworkUrl=Object.values(response.sprites.other)
-                        ImgUrl=GetOfficialArtworkUrl[1].front_default
-                        setPokeImg2(ImgUrl)
+                        if(GetOfficialArtworkUrl[1].front_default!==null){
+                            ImgUrl=GetOfficialArtworkUrl[1].front_default
+                            setPokeImg2(ImgUrl)
+                        }
+                        else{
+                            ImgUrl=GetOfficialArtworkUrl[1].front_default
+                            setPokeImg2(ImgUrl)
+                        }
+                        
                     })
                 }
                 else{
@@ -67,28 +80,15 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'frontSprite':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly') //Gastly has a error, so I have to do this
+                    if(PokeInfo.name==='gastly' || 
+                       PokeInfo.name==='vespiquen' || 
+                       PokeInfo.name==='raikou' || 
+                       PokeInfo.name === 'coalossal' ||
+                       PokeInfo.name === 'impidimp' ||
+                       PokeInfo.name === 'drakloak' ||
+                       PokeInfo.name === 'zacian-hero') //Gastly has a error, so I have to do this
                 {
                     fetch('https://pokeapi.co/api/v2/pokemon/gastly')
-                    .then(response=>response.json())
-                    .then(response=>{
-                        if(PokeInfo.gender==='male'){
-                            ImgUrl=response.sprites.front_default
-                            setPokeImg2(ImgUrl)
-                        }
-                        else if(PokeInfo.gender==='female' && response.sprites.front_female!==null){
-                            ImgUrl=response.sprites.front_female
-                            setPokeImg2(ImgUrl)
-                        }
-                        else{
-                            ImgUrl=response.sprites.front_default
-                            setPokeImg2(ImgUrl)
-                        }
-                        
-                    })
-                }
-                else if(PokeInfo.name==='vespiquen'){ //Vespiquen has a error, so I have to do this
-                    fetch('https://pokeapi.co/api/v2/pokemon/vespiquen')
                     .then(response=>response.json())
                     .then(response=>{
                         if(PokeInfo.gender==='male'){
@@ -128,7 +128,13 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'backSprite':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly') //Gastly has a error, so I have to do this
+                    if(PokeInfo.name==='gastly' || 
+                       PokeInfo.name==='vespiquen' || 
+                       PokeInfo.name==='raikou' || 
+                       PokeInfo.name === 'coalossal' ||
+                       PokeInfo.name === 'impidimp' ||
+                       PokeInfo.name === 'drakloak' ||
+                       PokeInfo.name === 'zacian-hero')  //Pokes that have an error, so I have to do this
                 {
                     fetch('https://pokeapi.co/api/v2/pokemon/gastly')
                     .then(response=>response.json())
@@ -170,7 +176,13 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
             break;
             case 'frontShiny':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly') //Gastly has a error, so I have to do this
+                    if(PokeInfo.name==='gastly' || 
+                       PokeInfo.name==='vespiquen' || 
+                       PokeInfo.name==='raikou' || 
+                       PokeInfo.name === 'coalossal' ||
+                       PokeInfo.name === 'impidimp' ||
+                       PokeInfo.name === 'drakloak' ||
+                       PokeInfo.name === 'zacian-hero')
                 {
                     fetch('https://pokeapi.co/api/v2/pokemon/gastly')
                     .then(response=>response.json())
@@ -211,7 +223,13 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
             break;
             case 'backShiny':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly') //Gastly has a error, so I have to do this
+                    if(PokeInfo.name==='gastly' || 
+                       PokeInfo.name==='vespiquen' || 
+                       PokeInfo.name==='raikou' || 
+                       PokeInfo.name === 'coalossal' ||
+                       PokeInfo.name === 'impidimp' ||
+                       PokeInfo.name === 'drakloak' ||
+                       PokeInfo.name === 'zacian-hero') 
                 {
                     fetch('https://pokeapi.co/api/v2/pokemon/gastly')
                     .then(response=>response.json())
@@ -251,9 +269,6 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                 },[])
             break;
         }
-
-        
-            
         return(pokeImg2)
         }
         

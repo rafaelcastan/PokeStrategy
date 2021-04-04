@@ -1,14 +1,22 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div`  
+        width:calc(100% - 2rem);
+        height:calc(100vh - 6rem);
 
-        display:flex;
-        flex-direction:column;
-        
-
-        .infinite-scroll-component{
+        .List{
+            margin-left:0.5rem;
+             margin-right:0.5rem;
+            display:flex;
+            flex-direction:row-reverse;
+            flex-wrap:wrap;
+            justify-content:space-between;
+            margin-left:2rem;
+            padding:0%;
             margin-top:6rem;
+            
         }
+        
 `;
 
 

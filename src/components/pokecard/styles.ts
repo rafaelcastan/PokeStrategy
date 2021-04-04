@@ -10,6 +10,7 @@ export const Container = styled.div`
     border-width: 0.4rem;
     background:#A9A9A9;
     border-radius:2rem;
+    width: 13.8rem;
     
 
     &:hover{
@@ -21,11 +22,13 @@ export const Container = styled.div`
         font-size:1.5rem;
         text-transform: capitalize;
         margin:0.5rem;
+        text-align:center;
     }
 
     .Image{
         align-self:center;
         width: 13rem;
+
     }
         /* Define an animation behavior */
     @keyframes spinner {
