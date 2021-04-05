@@ -22,19 +22,25 @@ export function HomePage (){
     const [collumNumbers, setCollumNumbers] = useState(6);
     const [rowNumbers, setRowNumbers] = useState(187);
     const [rowSize, setRowSize] = useState(2.1);
+    const [needRowUpdated, setNeedRowUpdated] = useState(true);
 
     if (typeof window !== 'undefined') {
       window.addEventListener("resize", updateGrid);
     }
 
     function rowUpdate(){
-      setRowNumbers((fullPokedex.length/collumNumbers)+1)
-      updateGrid()
+      if(needRowUpdated){
+        console.log('teste')
+        setRowNumbers((fullPokedex.length/collumNumbers)+1)
+        updateGrid()
+        setNeedRowUpdated(false);
+      }
     }
 
     
 
     function updateGrid(){
+        setNeedRowUpdated(true);
         const XL = window.matchMedia("(min-width:1600px)").matches;
         const L = window.matchMedia("(min-width:1280px)").matches;
         const M = window.matchMedia("(min-width:600px)").matches;

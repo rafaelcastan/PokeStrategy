@@ -29,7 +29,7 @@ export const Container = styled.div<ContainerProps>`
     }
 
     span{
-        font-size:calc(0.9rem * ${(props)=>props.resize});
+        font-size:calc(0.85rem * ${(props)=>props.resize});
         text-transform: capitalize;
         margin:0.5rem;
         text-align:center;
