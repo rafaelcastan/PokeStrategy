@@ -19,34 +19,42 @@ Modal.setAppElement('html')
 export function HomePage (){
     const { fullPokedex } = usePokemonsInfo();
     const [isPokeInfoModalOpen,setIsPokeInfoModalOpen] = useState(false);
-    let [collumNumbers, setCollumNumbers] = useState(6);
-    let [rowNumbers, setRowNumbers] = useState(187);
-
+    const [collumNumbers, setCollumNumbers] = useState(6);
+    const [rowNumbers, setRowNumbers] = useState(187);
+    const [rowSize, setRowSize] = useState(2.1);
 
     if (typeof window !== 'undefined') {
       window.addEventListener("resize", updateGrid);
     }
 
     function rowUpdate(){
-      console.log(collumNumbers)
       setRowNumbers((fullPokedex.length/collumNumbers)+1)
+      updateGrid()
     }
 
+    
+
     function updateGrid(){
-        const S = window.matchMedia("(min-width:360px)").matches;
-        const M = window.matchMedia("(min-width:600px)").matches;
-        const L = window.matchMedia("(min-width:1280px)").matches;
         const XL = window.matchMedia("(min-width:1600px)").matches;
+        const L = window.matchMedia("(min-width:1280px)").matches;
+        const M = window.matchMedia("(min-width:600px)").matches;
+        const S = window.matchMedia("(min-width:360px)").matches;
+       
         if (XL) {
           setCollumNumbers(6)
+          setRowSize(2.3)
          } else if (L) {
           setCollumNumbers(5)
+          setRowSize(1.8)
         } else if (M) {
           setCollumNumbers(4)
+          setRowSize(1.5)
         } else if (S) {
           setCollumNumbers(3)
+          setRowSize(1)
         } else {
           setCollumNumbers(2)
+          setRowSize(1)
         }
         
   }
@@ -59,14 +67,19 @@ export function HomePage (){
         const XL = window.matchMedia("(min-width:1600px)").matches;
         if (XL) {
           setCollumNumbers(6)
+          setRowSize(2.8)
          } else if (L) {
           setCollumNumbers(5)
+          setRowSize(2.1)
         } else if (M) {
-          setCollumNumbers(5)
+          setCollumNumbers(4)
+          setRowSize(2.1)
         } else if (S) {
           setCollumNumbers(3)
+          setRowSize(1)
         } else {
-          setCollumNumbers(2)
+          setCollumNumbers(3)
+          setRowSize(1)
         }
       }
     },[])
@@ -82,7 +95,7 @@ export function HomePage (){
     const Row = ({ rowIndex,columnIndex, style}) => (
       <div style={style}>
         {fullPokedex[rowIndex * collumNumbers + columnIndex] !== undefined && (
-          <PokeCard  PokeInfo={{name:fullPokedex[rowIndex * collumNumbers + columnIndex]}} ModalOpen={handleOpenPokeInfoModal} />
+          <PokeCard  PokeInfo={{name:fullPokedex[rowIndex * collumNumbers + columnIndex]}} ModalOpen={handleOpenPokeInfoModal} Size={rowSize}/>
         )}
       
       </div>
@@ -104,10 +117,10 @@ export function HomePage (){
         <Grid 
           className="List"
           columnCount={collumNumbers}
-          columnWidth={105}
+          columnWidth={screen.availWidth/collumNumbers-collumNumbers*2}
           height={height}
           rowCount={rowNumbers}
-          rowHeight={155}
+          rowHeight={148*rowSize}
           width={width}
           onScroll={rowUpdate}
         >

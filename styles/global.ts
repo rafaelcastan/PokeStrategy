@@ -29,6 +29,9 @@ export const GlobalStyle = createGlobalStyle`
        @media (max-width:1080px){
            font-size:93.75%;
        }
+       @media (max-width:1024px){
+           font-size:80%;
+       }
       
    }
    //Scrollbar edits

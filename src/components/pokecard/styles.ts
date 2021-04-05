@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps{
+    resize:number;
+}
+
+
+
+export const Container = styled.div<ContainerProps>`
 
     display:flex;
     align-content:center;
@@ -10,9 +16,11 @@ export const Container = styled.div`
     border-width: 0.4rem;
     background:#A9A9A9;
     border-radius:1rem;
-    width: 6.5rem;
-    height: 9rem;
+    width: calc(7.5rem * ${(props)=>props.resize});
+    height: calc(8.5rem * ${(props)=>props.resize});
     overflow:hidden;
+    justify-content:space-around;
+    
     
     
 
@@ -21,18 +29,20 @@ export const Container = styled.div`
     }
 
     span{
-        align-self:center;
-        font-size:1rem;
+        font-size:calc(0.9rem * ${(props)=>props.resize});
         text-transform: capitalize;
         margin:0.5rem;
         text-align:center;
-        text-overflow:'...';
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
     }
 
     .Image{
         align-self:center;
-        width: 5.5rem;
-
+        width: calc(5rem * ${(props)=>props.resize});
     }
         /* Define an animation behavior */
     @keyframes spinner {
@@ -43,12 +53,12 @@ export const Container = styled.div`
     /* Apply 'spinner' keyframes looping once every second (1s)  */
     animation: spinner 1s linear infinite;
     align-self:center;
-    margin: 5rem;
+    margin: calc(5rem * ${(props)=>props.resize});
     }     
 
     .fa-FileExcel{
         align-self:center;
-    margin: 6rem;
+    margin: calc(6rem * ${(props)=>props.resize});
     }
     
 `;

@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`  
-        height:calc(100vh - 6.1rem);
-        width:calc(100vw - 2rem);
+        height:calc(100vh - 6rem);
+        width:calc(100vw - 1.5rem);
+        @media (max-width:1024px){
+            height:100vh;
+            width:100vw;
+            overflow:hidden;
+       }
 
         .List{
             display:flex;
             flex-direction:row-reverse;
             flex-wrap:wrap;
             justify-content:space-between;
-            margin-left:2rem;
+            margin-left:1.5rem;
             padding:0%;
             margin-top:6rem;
             
