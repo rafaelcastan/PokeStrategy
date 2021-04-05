@@ -13,7 +13,6 @@ export const NavBar = styled.div`
     z-index:90;
 
     .Icon{
-            width:4.8rem; 
             position:fixed;
             left:1%;
             top:1%;
@@ -34,7 +33,7 @@ export const NavBar = styled.div`
             top:1rem;
             max-width:5rem;
             @media (max-width:1205px){
-                right:5%;
+                right:1%;
                 top:1%;
                 max-width:5rem;
             }

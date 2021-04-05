@@ -139,7 +139,7 @@ export function SearchBar({ModalOpen}:SearchBarProps){
         
     </Container>
     
-            <PokedexIcon className="Icon" style={{width:'4.8rem'}}/>
+            <PokedexIcon className="Icon" style={{width:'4.5rem'}}/>
             <span className="IconName" hidden={!mobileView}>StrategyDex</span>
             <img 
             hidden={!mounted}

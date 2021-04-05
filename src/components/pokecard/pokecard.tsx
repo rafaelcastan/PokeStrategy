@@ -19,7 +19,7 @@ export function PokeCard ({PokeInfo,ModalOpen}:PokeCardProps){
     <Container onClick={()=>ModalOpen()}>
         <Img className="Image"  
         alt={`${PokeInfo.name} sprite `} 
-        loader={<FontAwesomeIcon icon={faSpinner} size="lg"/>}
+        loader={<FontAwesomeIcon icon={faSpinner} style={{width:'2rem', alignSelf:'center'}}/>}
         unloader={<FontAwesomeIcon icon={faFileExcel}/>}
         key={Date.now()}
         loading="lazy"

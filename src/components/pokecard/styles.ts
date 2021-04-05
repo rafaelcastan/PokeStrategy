@@ -10,7 +10,10 @@ export const Container = styled.div`
     border-width: 0.4rem;
     background:#A9A9A9;
     border-radius:1rem;
-    width: 6rem;
+    width: 6.5rem;
+    height: 9rem;
+    overflow:hidden;
+    
     
 
     &:hover{
@@ -19,15 +22,16 @@ export const Container = styled.div`
 
     span{
         align-self:center;
-        font-size:0.9rem;
+        font-size:1rem;
         text-transform: capitalize;
         margin:0.5rem;
         text-align:center;
+        text-overflow:'...';
     }
 
     .Image{
         align-self:center;
-        width: 5rem;
+        width: 5.5rem;
 
     }
         /* Define an animation behavior */

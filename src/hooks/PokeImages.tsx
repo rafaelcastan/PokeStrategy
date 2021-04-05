@@ -30,6 +30,9 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
     var PokeSearch = new PokeDB();
     var GetOfficialArtworkUrl = [];
     let ImgUrl = '';
+    const PokeNames = ['gastly', 'vespiquen', 'raikou', 'coalossal', 'impidimp', 'drakloak', 'zacian-hero', 'quilava', 
+                       'volbeat', 'solrock', 'feebas', 'deoxys-normal', 'audino', 'scolipede', 'cinccino', 'gothita', 'galvantula', 'klang',
+                       'mienfoo', 'volcarona', 'scatterbug', 'spewpa', 'tyrunt', 'popplio', 'yungoos']
 
     function GetPokemonImg({PokeInfo}:PokeCardProps){
         const [pokeImg2, setPokeImg2] = useState('');
@@ -38,13 +41,7 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'officialArtwork':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly' || 
-                       PokeInfo.name==='vespiquen' || 
-                       PokeInfo.name==='raikou' || 
-                       PokeInfo.name === 'coalossal' ||
-                       PokeInfo.name === 'impidimp' ||
-                       PokeInfo.name === 'drakloak' ||
-                       PokeInfo.name === 'zacian-hero') //Pokemons that have an error, so I have to do this
+                    if(PokeNames.indexOf(PokeInfo.name)> -1) //Pokemons that have an error, so I have to do this
                 {
                     fetch(`https://pokeapi.co/api/v2/pokemon/${PokeInfo.name}`)
                     .then(response=>response.json())
@@ -80,13 +77,7 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'frontSprite':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly' || 
-                       PokeInfo.name==='vespiquen' || 
-                       PokeInfo.name==='raikou' || 
-                       PokeInfo.name === 'coalossal' ||
-                       PokeInfo.name === 'impidimp' ||
-                       PokeInfo.name === 'drakloak' ||
-                       PokeInfo.name === 'zacian-hero') //Gastly has a error, so I have to do this
+                    if(PokeNames.indexOf(PokeInfo.name)> -1) //Gastly has a error, so I have to do this
                 {
                     fetch('https://pokeapi.co/api/v2/pokemon/gastly')
                     .then(response=>response.json())
@@ -128,13 +119,7 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'backSprite':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly' || 
-                       PokeInfo.name==='vespiquen' || 
-                       PokeInfo.name==='raikou' || 
-                       PokeInfo.name === 'coalossal' ||
-                       PokeInfo.name === 'impidimp' ||
-                       PokeInfo.name === 'drakloak' ||
-                       PokeInfo.name === 'zacian-hero')  //Pokes that have an error, so I have to do this
+                    if(PokeNames.indexOf(PokeInfo.name)> -1)  //Pokes that have an error, so I have to do this
                 {
                     fetch('https://pokeapi.co/api/v2/pokemon/gastly')
                     .then(response=>response.json())
@@ -176,13 +161,7 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
             break;
             case 'frontShiny':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly' || 
-                       PokeInfo.name==='vespiquen' || 
-                       PokeInfo.name==='raikou' || 
-                       PokeInfo.name === 'coalossal' ||
-                       PokeInfo.name === 'impidimp' ||
-                       PokeInfo.name === 'drakloak' ||
-                       PokeInfo.name === 'zacian-hero')
+                    if(PokeNames.indexOf(PokeInfo.name)> -1)
                 {
                     fetch('https://pokeapi.co/api/v2/pokemon/gastly')
                     .then(response=>response.json())
@@ -223,13 +202,7 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
             break;
             case 'backShiny':
                 useEffect(()=>{
-                    if(PokeInfo.name==='gastly' || 
-                       PokeInfo.name==='vespiquen' || 
-                       PokeInfo.name==='raikou' || 
-                       PokeInfo.name === 'coalossal' ||
-                       PokeInfo.name === 'impidimp' ||
-                       PokeInfo.name === 'drakloak' ||
-                       PokeInfo.name === 'zacian-hero') 
+                    if(PokeNames.indexOf(PokeInfo.name)> -1) 
                 {
                     fetch('https://pokeapi.co/api/v2/pokemon/gastly')
                     .then(response=>response.json())

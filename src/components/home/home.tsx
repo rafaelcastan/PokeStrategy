@@ -22,10 +22,14 @@ export function HomePage (){
     let [collumNumbers, setCollumNumbers] = useState(6);
     let [rowNumbers, setRowNumbers] = useState(187);
 
-    
 
     if (typeof window !== 'undefined') {
       window.addEventListener("resize", updateGrid);
+    }
+
+    function rowUpdate(){
+      console.log(collumNumbers)
+      setRowNumbers((fullPokedex.length/collumNumbers)+1)
     }
 
     function updateGrid(){
@@ -44,8 +48,7 @@ export function HomePage (){
         } else {
           setCollumNumbers(2)
         }
-        setRowNumbers((fullPokedex.length/collumNumbers)+1)
-
+        
   }
 
     useEffect(()=>{
@@ -59,13 +62,12 @@ export function HomePage (){
          } else if (L) {
           setCollumNumbers(5)
         } else if (M) {
-          setCollumNumbers(4)
+          setCollumNumbers(5)
         } else if (S) {
           setCollumNumbers(3)
         } else {
           setCollumNumbers(2)
         }
-        setRowNumbers((fullPokedex.length/collumNumbers)+1)
       }
     },[])
 
@@ -98,23 +100,21 @@ export function HomePage (){
             {fullPokedex.length>1 && (
              
                  <AutoSizer>
-        {({ height, width }) => (
-      <Grid 
-        className="List"
-        columnCount={collumNumbers}
-        columnWidth={100}
-        height={height}
-        rowCount={rowNumbers}
-        rowHeight={150}
-        width={width}
-      >
-        {Row}
-      </Grid>
-    )}
-  </AutoSizer>)}
-            
-
-         
+      {({ height, width }) => (
+        <Grid 
+          className="List"
+          columnCount={collumNumbers}
+          columnWidth={105}
+          height={height}
+          rowCount={rowNumbers}
+          rowHeight={155}
+          width={width}
+          onScroll={rowUpdate}
+        >
+          {Row}
+        </Grid>
+     )}
+        </AutoSizer>)}
         </Container>
     )
 }
