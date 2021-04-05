@@ -29,7 +29,7 @@ export const Container = styled.div<ContainerProps>`
     }
 
     span{
-        font-size:calc(0.85rem * ${(props)=>props.resize});
+        font-size:calc(1rem * ${(props)=>props.resize});
         text-transform: capitalize;
         margin:0.5rem;
         text-align:center;
@@ -38,6 +38,9 @@ export const Container = styled.div<ContainerProps>`
         display: -webkit-box;
         -webkit-line-clamp: 2; /* number of lines to show */
         -webkit-box-orient: vertical;
+        @media (max-width:767px){
+            font-size:calc(0.78rem * ${(props)=>props.resize});
+       }
     }
 
     .Image{
