@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`  
-        width:calc(100% - 2rem);
-        height:calc(100vh - 6rem);
+        height:calc(100vh - 6.1rem);
+        width:calc(100vw - 2rem);
 
         .List{
-            margin-left:0.5rem;
-             margin-right:0.5rem;
             display:flex;
             flex-direction:row-reverse;
             flex-wrap:wrap;

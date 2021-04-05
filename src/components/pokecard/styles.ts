@@ -9,8 +9,8 @@ export const Container = styled.div`
     border: solid black;
     border-width: 0.4rem;
     background:#A9A9A9;
-    border-radius:2rem;
-    width: 13.8rem;
+    border-radius:1rem;
+    width: 6rem;
     
 
     &:hover{
@@ -19,7 +19,7 @@ export const Container = styled.div`
 
     span{
         align-self:center;
-        font-size:1.5rem;
+        font-size:0.9rem;
         text-transform: capitalize;
         margin:0.5rem;
         text-align:center;
@@ -27,7 +27,7 @@ export const Container = styled.div`
 
     .Image{
         align-self:center;
-        width: 13rem;
+        width: 5rem;
 
     }
         /* Define an animation behavior */

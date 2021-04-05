@@ -3,7 +3,7 @@ import {createGlobalStyle} from 'styled-components'
 export const GlobalStyle = createGlobalStyle`
     body{
         background:grey;    
-        overflow:hidden;
+        overflow-y:hidden;
     }
 
     *{
@@ -23,20 +23,18 @@ export const GlobalStyle = createGlobalStyle`
 
     html {
         width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+        height: 100%;
+        margin: 0;
+        padding: 0;
        @media (max-width:1080px){
            font-size:93.75%;
        }
-       @media (max-width:637px){
-           font-size:52%;
-       }
+      
    }
    //Scrollbar edits
 
    div::-webkit-scrollbar {
-        width: 15px;               /* width of the entire scrollbar */
+        width: 15px;              /* width of the entire scrollbar */
     }
 
     div::-webkit-scrollbar-track {
