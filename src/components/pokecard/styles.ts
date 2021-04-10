@@ -21,9 +21,6 @@ export const Container = styled.div<ContainerProps>`
     overflow:hidden;
     justify-content:space-around;
     
-    
-    
-
     &:hover{
         cursor: pointer;
     }
@@ -46,6 +43,11 @@ export const Container = styled.div<ContainerProps>`
     .Image{
         align-self:center;
         width: calc(5rem * ${(props)=>props.resize});
+
+        &:hover{
+            width: calc(5rem * ${(props)=>props.resize});
+    }
+
     }
         /* Define an animation behavior */
     @keyframes spinner {

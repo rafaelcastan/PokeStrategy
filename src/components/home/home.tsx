@@ -1,23 +1,24 @@
-import { Container } from "./styles"
+import { Container, StyledLoader } from "./styles"
 import { FixedSizeGrid  as Grid  } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { Suspense, lazy } from 'react';
+import Modal from 'react-modal'
 
 
 
 import { PokeCard } from "../pokecard/pokecard"
-
 import { usePokemonsInfo } from "../../hooks/PokeContext";
 import { SearchBar } from '../searchBar/searchBar';
-import { useEffect, useState} from 'react';
+import { useEffect, useRef, useState} from 'react';
 import React from 'react';
 import { PokeInfoModal } from "../pokeInfoModal/pokeInfoModal";
-import Modal from 'react-modal'
+
 
 
 Modal.setAppElement('html')
 
 export function HomePage (){
-    const { fullPokedex } = usePokemonsInfo();
+    const { fullPokedex, SelectPokemon, selectedPokemon, pokeTree, loading } = usePokemonsInfo();
     const [isPokeInfoModalOpen,setIsPokeInfoModalOpen] = useState(false);
     const [collumNumbers, setCollumNumbers] = useState(6);
     const [rowNumbers, setRowNumbers] = useState(187);
@@ -30,14 +31,11 @@ export function HomePage (){
 
     function rowUpdate(){
       if(needRowUpdated){
-        console.log('teste')
         setRowNumbers((fullPokedex.length/collumNumbers)+1)
         updateGrid()
         setNeedRowUpdated(false);
       }
     }
-
-    
 
     function updateGrid(){
         setNeedRowUpdated(true);
@@ -96,44 +94,59 @@ export function HomePage (){
 
     function handleClosePokeInfoModal() {
         setIsPokeInfoModalOpen(false);
+        SelectPokemon('');
     }
+
+
+    useEffect(()=>{
+      if(selectedPokemon!==''){
+        handleOpenPokeInfoModal()
+      }      
+    },[pokeTree])
      
     const Row = ({ rowIndex,columnIndex, style}) => (
       <div style={style}>
         {fullPokedex[rowIndex * collumNumbers + columnIndex] !== undefined && (
-          <PokeCard  PokeInfo={{name:fullPokedex[rowIndex * collumNumbers + columnIndex]}} ModalOpen={handleOpenPokeInfoModal} Size={rowSize}/>
+          <PokeCard  PokeInfo={{name:fullPokedex[rowIndex * collumNumbers + columnIndex]}} Size={rowSize}/>
         )}
-      
       </div>
     );
 
 
     return (
+      <StyledLoader
+      active={loading}
+      spinner
+      text='Loading your content...'
+      >
         <Container>
+          {isPokeInfoModalOpen &&(
             <PokeInfoModal
-                isOpen={isPokeInfoModalOpen}
-                onRequestClose={handleClosePokeInfoModal}
-            />
-            <SearchBar ModalOpen={handleOpenPokeInfoModal}/>
+            isOpen={isPokeInfoModalOpen}
+            onRequestClose={handleClosePokeInfoModal}
+        />
+          )}
+          
+            <SearchBar/>
 
-            {fullPokedex.length>1 && (
-             
-                 <AutoSizer>
-      {({ height, width }) => (
-        <Grid 
-          className="List"
-          columnCount={collumNumbers}
-          columnWidth={screen.availWidth/collumNumbers-collumNumbers*2}
-          height={height}
-          rowCount={rowNumbers}
-          rowHeight={148*rowSize}
-          width={width}
-          onScroll={rowUpdate}
-        >
-          {Row}
-        </Grid>
-     )}
-        </AutoSizer>)}
+          {fullPokedex.length>1 && (
+            <AutoSizer>
+              {({ height, width }) => (
+              <Grid 
+                className="List"
+                columnCount={collumNumbers}
+                columnWidth={screen.availWidth/collumNumbers-collumNumbers*2}
+                height={height}
+                rowCount={rowNumbers}
+                rowHeight={148*rowSize}
+                width={width}
+                onScroll={rowUpdate}
+              >
+                {Row}
+              </Grid>
+          )}
+              </AutoSizer>)}
         </Container>
-    )
+        </StyledLoader>
+      )
 }

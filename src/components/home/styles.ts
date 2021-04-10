@@ -1,4 +1,11 @@
+import LoadingOverlay from 'react-loading-overlay-ts';
 import styled from 'styled-components';
+
+export const StyledLoader = styled(LoadingOverlay)`
+    position:absolute;
+    width:100vw;
+    height:100vh;
+`;
 
 export const Container = styled.div`  
         height:calc(100vh - 6rem);

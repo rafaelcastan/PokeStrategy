@@ -2,7 +2,8 @@ import {createContext, ReactNode, useState, useContext, useEffect} from 'react';
 
 interface PokemonsImgContextData{
     pokeImg: string;
-    GetPokemonImg:({PokeInfo}:PokeCardProps)=>string;
+    GetPokemonImg:({Pokemon}:PokeCardProps)=>string;
+    getItemImg:(Item:string)=>string;
 }
 
 interface PokemonsImgProviderProps {
@@ -10,7 +11,7 @@ interface PokemonsImgProviderProps {
 }
 
 interface PokeCardProps{
-    PokeInfo:{
+    Pokemon:{
         name:string,
         type:string,
         gender?:string
@@ -32,18 +33,21 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
     let ImgUrl = '';
     const PokeNames = ['gastly', 'vespiquen', 'raikou', 'coalossal', 'impidimp', 'drakloak', 'zacian-hero', 'quilava', 
                        'volbeat', 'solrock', 'feebas', 'deoxys-normal', 'audino', 'scolipede', 'cinccino', 'gothita', 'galvantula', 'klang',
-                       'mienfoo', 'volcarona', 'scatterbug', 'spewpa', 'tyrunt', 'popplio', 'yungoos']
+                       'mienfoo', 'volcarona', 'scatterbug', 'spewpa', 'tyrunt', 'popplio', 'yungoos'];
+    const pokeGif = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/`;
+    const pokeSprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+    const pokeSpriteAnimated = 'https://raw.githubusercontent.com/rafaelcastan/Sprites/main/Sprites/';
 
-    function GetPokemonImg({PokeInfo}:PokeCardProps){
+    function GetPokemonImg({Pokemon}:PokeCardProps){
         const [pokeImg2, setPokeImg2] = useState('');
 
-        switch(PokeInfo.type){
+        switch(Pokemon.type){
 
             case 'officialArtwork':
                 useEffect(()=>{
-                    if(PokeNames.indexOf(PokeInfo.name)> -1) //Pokemons that have an error, so I have to do this
+                    if(PokeNames.indexOf(Pokemon.name)> -1) //Pokemons that have an error, so I have to do this
                 {
-                    fetch(`https://pokeapi.co/api/v2/pokemon/${PokeInfo.name}`)
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${Pokemon.name}`)
                     .then(response=>response.json())
                     .then(response=>{
                         GetOfficialArtworkUrl=Object.values(response.sprites.other)
@@ -59,7 +63,7 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                     })
                 }
                 else{
-                    PokeSearch.getPokemonByName(PokeInfo.name)
+                    PokeSearch.getPokemonByName(Pokemon.name)
                     .then(response=>{
                         GetOfficialArtworkUrl=Object.values(response.sprites.other)
                         if(GetOfficialArtworkUrl[1].front_default!==null){
@@ -77,16 +81,16 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'frontSprite':
                 useEffect(()=>{
-                    if(PokeNames.indexOf(PokeInfo.name)> -1) //Gastly has a error, so I have to do this
+                    if(PokeNames.indexOf(Pokemon.name)> -1) //Gastly has a error, so I have to do this
                 {
-                    fetch('https://pokeapi.co/api/v2/pokemon/gastly')
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${Pokemon.name}`)
                     .then(response=>response.json())
                     .then(response=>{
-                        if(PokeInfo.gender==='male'){
+                        if(Pokemon.gender==='male'){
                             ImgUrl=response.sprites.front_default
                             setPokeImg2(ImgUrl)
                         }
-                        else if(PokeInfo.gender==='female' && response.sprites.front_female!==null){
+                        else if(Pokemon.gender==='female' && response.sprites.front_female!==null){
                             ImgUrl=response.sprites.front_female
                             setPokeImg2(ImgUrl)
                         }
@@ -98,13 +102,13 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                     })
                 }
                 else{
-                    PokeSearch.getPokemonByName(PokeInfo.name)
+                    PokeSearch.getPokemonByName(Pokemon.name)
                     .then(response=>{
-                        if(PokeInfo.gender==='male'){
+                        if(Pokemon.gender==='male'){
                             ImgUrl=response.sprites.front_default
                             setPokeImg2(ImgUrl)
                         }
-                        else if(PokeInfo.gender==='female' && response.sprites.front_female!==null){
+                        else if(Pokemon.gender==='female' && response.sprites.front_female!==null){
                             ImgUrl=response.sprites.front_female
                             setPokeImg2(ImgUrl)
                         }
@@ -119,16 +123,16 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
             case 'backSprite':
                 useEffect(()=>{
-                    if(PokeNames.indexOf(PokeInfo.name)> -1)  //Pokes that have an error, so I have to do this
+                    if(PokeNames.indexOf(Pokemon.name)> -1)  //Pokes that have an error, so I have to do this
                 {
-                    fetch('https://pokeapi.co/api/v2/pokemon/gastly')
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${Pokemon.name}`)
                     .then(response=>response.json())
                     .then(response=>{
-                        if(PokeInfo.gender==='male'){
+                        if(Pokemon.gender==='male'){
                             ImgUrl=response.sprites.back_default
                             setPokeImg2(ImgUrl)
                         }
-                        else if(PokeInfo.gender==='female' && response.sprites.back_female!==null){
+                        else if(Pokemon.gender==='female' && response.sprites.back_female!==null){
                             ImgUrl=response.sprites.back_female
                             setPokeImg2(ImgUrl)
                         }
@@ -140,13 +144,13 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                     })
                 }
                 else{
-                    PokeSearch.getPokemonByName(PokeInfo.name)
+                    PokeSearch.getPokemonByName(Pokemon.name)
                     .then(response=>{
-                            if(PokeInfo.gender==='male'){
+                            if(Pokemon.gender==='male'){
                                 ImgUrl=response.sprites.back_default
                                 setPokeImg2(ImgUrl)
                             }
-                            else if(PokeInfo.gender==='female' && response.sprites.back_female!==null){
+                            else if(Pokemon.gender==='female' && response.sprites.back_female!==null){
                                 ImgUrl=response.sprites.back_female
                                 setPokeImg2(ImgUrl)
                             }
@@ -161,16 +165,16 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
             break;
             case 'frontShiny':
                 useEffect(()=>{
-                    if(PokeNames.indexOf(PokeInfo.name)> -1)
+                    if(PokeNames.indexOf(Pokemon.name)> -1)
                 {
-                    fetch('https://pokeapi.co/api/v2/pokemon/gastly')
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${Pokemon.name}`)
                     .then(response=>response.json())
                     .then(response=>{
-                        if(PokeInfo.gender==='male'){
+                        if(Pokemon.gender==='male'){
                             ImgUrl=response.sprites.front_shiny
                             setPokeImg2(ImgUrl)
                         }
-                        else if(PokeInfo.gender==='female' && response.sprites.front_shiny_female!==null){
+                        else if(Pokemon.gender==='female' && response.sprites.front_shiny_female!==null){
                             ImgUrl=response.sprites.front_shiny_female
                             setPokeImg2(ImgUrl)
                         }
@@ -182,13 +186,13 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                     })
                 }
                 else{
-                    PokeSearch.getPokemonByName(PokeInfo.name)
+                    PokeSearch.getPokemonByName(Pokemon.name)
                     .then(response=>{
-                        if(PokeInfo.gender==='male'){
+                        if(Pokemon.gender==='male'){
                             ImgUrl=response.sprites.front_shiny
                             setPokeImg2(ImgUrl)
                         }
-                        else if(PokeInfo.gender==='female' && response.sprites.front_shiny_female!==null){
+                        else if(Pokemon.gender==='female' && response.sprites.front_shiny_female!==null){
                             ImgUrl=response.sprites.front_shiny_female
                             setPokeImg2(ImgUrl)
                         }
@@ -202,16 +206,16 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
             break;
             case 'backShiny':
                 useEffect(()=>{
-                    if(PokeNames.indexOf(PokeInfo.name)> -1) 
+                    if(PokeNames.indexOf(Pokemon.name)> -1) 
                 {
-                    fetch('https://pokeapi.co/api/v2/pokemon/gastly')
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${Pokemon.name}`)
                     .then(response=>response.json())
                     .then(response=>{
-                        if(PokeInfo.gender==='male'){
+                        if(Pokemon.gender==='male'){
                             ImgUrl=response.sprites.back_shiny
                             setPokeImg2(ImgUrl)
                         }
-                        else if(PokeInfo.gender==='female' && response.sprites.back_shiny_female!==null){
+                        else if(Pokemon.gender==='female' && response.sprites.back_shiny_female!==null){
                             ImgUrl=response.sprites.back_shiny_female
                             setPokeImg2(ImgUrl)
                         }
@@ -223,13 +227,13 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                     })
                 }
                 else{
-                    PokeSearch.getPokemonByName(PokeInfo.name)
+                    PokeSearch.getPokemonByName(Pokemon.name)
                     .then(response=>{
-                        if(PokeInfo.gender==='male'){
+                        if(Pokemon.gender==='male'){
                             ImgUrl=response.sprites.back_shiny
                             setPokeImg2(ImgUrl)
                         }
-                        else if(PokeInfo.gender==='female' && response.sprites.back_shiny_female!==null){
+                        else if(Pokemon.gender==='female' && response.sprites.back_shiny_female!==null){
                             ImgUrl=response.sprites.back_shiny_female
                             setPokeImg2(ImgUrl)
                         }
@@ -241,14 +245,72 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
                 }
                 },[])
             break;
+            case 'animated':
+                useEffect(()=>{
+                    if(PokeNames.indexOf(Pokemon.name)> -1) 
+                {
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${Pokemon.name}`)
+                    .then(response=>response.json())
+                    .then(response=>{
+                        let pokeId = Number(response.id);
+                        let ImgUrl = `${pokeGif+pokeId}.gif`
+                            fetch(`${pokeGif+pokeId}.gif`).then(response=>{
+                                if(!response.ok){
+                                    ImgUrl=`${pokeSprite+(pokeId)}.png`
+                                }
+                                setPokeImg2(ImgUrl)
+                            })
+                        
+                    })
+                }
+                else{
+                    PokeSearch.getPokemonByName(Pokemon.name)
+                    .then(response=>{
+                        let pokeId = Number(response.id);
+                        let ImgUrl = `${pokeGif+pokeId}.gif`
+                        fetch(`${pokeGif+pokeId}.gif`).then(response=>{
+                                if(!response.ok){
+                                    ImgUrl=`${pokeSpriteAnimated+(Pokemon.name)}.gif`
+                                }
+                                setPokeImg2(ImgUrl)
+                            })
+                     
+            
+                        
+
+                        if(Pokemon.gender==='male'){
+                            
+                            setPokeImg2(ImgUrl)
+                        }
+                        else if(Pokemon.gender==='female' && response.sprites.back_shiny_female!==null){
+                            
+                            setPokeImg2(ImgUrl)
+                        }
+                        else{
+                           
+                            setPokeImg2(ImgUrl)
+                        }
+                    })
+                }
+                },[])
+                break;
+
         }
         return(pokeImg2)
         }
+
+function getItemImg(Item:string){
+    const [itemUrl, setItemUrl] = useState('');
+    PokeSearch.getItemByName(Item).then((response)=>{
+        setItemUrl(response.sprites.default)
+    })
+    return(itemUrl)
+}
         
     
 
     return(
-        <PokemonsImgContext.Provider value={{pokeImg, GetPokemonImg}}>
+        <PokemonsImgContext.Provider value={{pokeImg, GetPokemonImg, getItemImg}}>
             {children}
         </PokemonsImgContext.Provider>
     )
@@ -256,6 +318,5 @@ export function PokemonsImgProvider({children}:PokemonsImgProviderProps){
 
 export function usePokemonsImg(){
     const context = useContext(PokemonsImgContext);
-
     return context;
 }

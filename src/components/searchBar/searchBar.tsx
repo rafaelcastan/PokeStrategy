@@ -8,22 +8,20 @@ import { Container,NavBar } from "./styles";
 import { usePokemonsInfo } from "../../hooks/PokeContext";
 import PokedexIcon from '../../assets/pokedex.svg';
 
-interface SearchBarProps{
-    ModalOpen:()=>void,
-}
 
-export function SearchBar({ModalOpen}:SearchBarProps){
-    const { capitalizeFirstLetter, fullPokedex} = usePokemonsInfo();
+export function SearchBar(){
+    const { capitalizeFirstLetter, fullPokedex, SelectPokemon} = usePokemonsInfo();
     const [displaySugestion, setDisplaySugestion] = useState(false);
     const [search, setSearch] = useState("");
     const [mobileView, setMobileView] = useState(false);
     const [pokeId, setPokeId] = useState(1);
     const [mounted, setMounted] = useState(false);
     const [sugestionClicked, setSugestionClicked] = useState(false);
+    const [notFound, setNotFound] = useState(false);
     const wrapperRef = useRef(null);    
     const pokeGif = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/`;
-    const pokeSprite = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
-    const randomPoke = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/';
+    const pokeSprite = 'https://raw.githubusercontent.com/rafaelcastan/Sprites/main/Sprites/';
+
 
     useEffect(()=>{
         if(sugestionClicked){
@@ -37,21 +35,24 @@ export function SearchBar({ModalOpen}:SearchBarProps){
         setSearch(Pokemon);
         setDisplaySugestion(false);   
         setSugestionClicked(true);
+
     }
 
     function doSearch (){
-            console.log(search)
-        let teste = fullPokedex.filter((name)=> name.indexOf(search.toLowerCase()) > -1 )
-        if((fullPokedex.indexOf(search.replace(/\s/g, '').toLowerCase())> -1)){
-            console.log('valido')
-            
+
+        let pokemonExists = fullPokedex.filter((name)=> name.indexOf(search.toLowerCase()) > -1 )
+        if((fullPokedex.indexOf(search.replace(/\s/g, '').toLowerCase())> -1)){ //Find Pokemon
+            SelectPokemon(search.toLowerCase())
+            setSearch('')
+            setNotFound(false)
         }
-        else if(teste.length===0){
-            console.log('Não existe')
+        else if(pokemonExists.length===0){ //Pokemon not found
+            setNotFound(true)
         }
         else{
-            console.log('Completar')
-            console.log(teste[0])
+            SelectPokemon(pokemonExists[0].toLowerCase())//auto-complete what user wright
+            setSearch('')
+            setNotFound(false)
         }
 
        
@@ -94,7 +95,9 @@ export function SearchBar({ModalOpen}:SearchBarProps){
                 setDisplaySugestion(false)
                 if(search){doSearch()}
             }
-            }>
+            }
+            isNotFound={notFound}
+            >
             <input type="text" 
             placeholder="Search..." 
             value={search}
@@ -110,23 +113,21 @@ export function SearchBar({ModalOpen}:SearchBarProps){
             />
                 {displaySugestion && (
                     <div className="Sugestions">
-                        {fullPokedex.filter((name)=> name.indexOf(search.toLowerCase()) > -1 ).splice(0,52).map((values, index) =>{
+                        {fullPokedex.filter((name)=> name.indexOf(search.toLowerCase()) > -1 ).splice(0,52).map((value, index) =>{
                             return <div
                                     onMouseDown={ ()=>{ 
-                                         setSearchValue(capitalizeFirstLetter(values))          
+                                         setSearchValue(capitalizeFirstLetter(value))          
                                     }}
                                     onKeyPress={event=> {if(event.key === 'Enter'){
-                                    setSearchValue(capitalizeFirstLetter(values))  
+                                    setSearchValue(capitalizeFirstLetter(value))  
                                     }}}
                                     ref={wrapperRef}
                                     tabIndex={0}
                                     key={index}
                                     >
-                                <span>{capitalizeFirstLetter(values)}</span>
+                                <span>{capitalizeFirstLetter(value)}</span>
                                     <Img className="SugestionsImages" 
-                                    src={[`${pokeGif+(fullPokedex.indexOf(values)+1)}.gif`, 
-                                          `${pokeSprite+(fullPokedex.indexOf(values)+9103)}.png`,
-                                          `${pokeSprite+(fullPokedex.indexOf(values)+1)}.png`]}
+                                    src={`${pokeSprite+value}.gif`}
                                     loader={<FontAwesomeIcon icon={faSpinner} size="sm"/>}
                                     unloader={<FontAwesomeIcon icon={faFileExcel}/>}
                                     key={Date.now()}
@@ -144,10 +145,15 @@ export function SearchBar({ModalOpen}:SearchBarProps){
             <img 
             hidden={!mounted}
             className="Pokemon"
-            src={`${randomPoke+pokeId}.gif`}/>
+            src={`${pokeGif+pokeId}.gif`}/>
     </NavBar>
     )}
     </>
     )
 
 }
+
+
+// {[`${pokeGif+(fullPokedex.indexOf(values)+1)}.gif`, 
+// `${pokeSprite+(fullPokedex.indexOf(values)+9103)}.png`,
+// `${pokeSprite+(fullPokedex.indexOf(values)+1)}.png`]}

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {darken,transparentize} from 'polished';
 
 export const NavBar = styled.div`
     width:100%;
@@ -40,7 +41,11 @@ export const NavBar = styled.div`
         }
 `;
 
-export const Container = styled.form`
+interface ContainerProps{
+    isNotFound:boolean;
+}
+
+export const Container = styled.form<ContainerProps>`
     
     display:flex;
     flex-direction:row;
@@ -50,13 +55,13 @@ export const Container = styled.form`
     max-width:58%;
     width:40rem;
     height:3rem;
-    background:#A9A9A9;
+    background:${(props)=>props.isNotFound ? transparentize(0.7,'red') : '#A9A9A9'};
     align-self:center;
 
     
 
     .Sugestions{
-        max-width:60%;
+        max-width:56%;
         width:36rem;
         position:absolute;
         background:rgba(169, 169, 169, 0.95);
@@ -109,13 +114,14 @@ export const Container = styled.form`
         border: none;
         cursor: pointer;
         background:#696969;
+        outline: none;
     }
 
     input{
         border:none;
         font-size:1.2rem;
         width:100%;
-        background:#A9A9A9;
+        background: ${(props)=>props.isNotFound ? transparentize(1,'red') : '#A9A9A9'};
         height:100%;
         margin-left:0.8rem;
         z-index:1;
