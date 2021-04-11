@@ -20,6 +20,8 @@ export const Container = styled.div<ContainerProps>`
     justify-content:space-between;
     flex-basis: 100%;
 
+    
+
     .Bar{
     display: flex;
     align-items: center;

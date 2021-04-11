@@ -1,8 +1,12 @@
 import Modal from 'react-modal';
 import { useState } from 'react';
 import Switch from "react-switch";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import { Container, PokemonsBattling, PokemonCard, PokemonNameAndAbilities, StatsBars, EvolutionTree, ModalBody } from "./styles";
+import { Container, PokemonsBattling, PokemonCard, 
+         PokemonNameAndAbilities, StatsBars, EvolutionTree, 
+         ModalBody, CloseModalButton } from "./styles";
 import { usePokemonsInfo } from '../../hooks/PokeContext';
 import { usePokemonsImg } from '../../hooks/PokeImages';
 import {StatsBar} from '../Statsbar/statsBar'
@@ -26,8 +30,8 @@ interface EvolutionsMethods{
         minHappines:number,
         minLevel:number,
         needsOverworldRain:boolean,
-        partySpecies:string,
-        partyType:string,
+        partySpecies:{name:string, url:string},
+        partyType:{name:string, url:string},
         relativePhysicalStats:number,
         timeOfDay:string,
         tradeSpecies:string,
@@ -38,12 +42,7 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
     const {selectedPokemon, pokemonInfo, capitalizeFirstLetter, pokeTree} =usePokemonsInfo();
     const {GetPokemonImg, getItemImg} = usePokemonsImg();
     const [checked, setChecked] = useState(false);
-    let artworkUrl = '';
-    let animatedUrl = '';
-    let spriteFrontUrls= [''];
-    let shinyFrontUrls =[''];
-    let spriteBackUrls= [''];
-    let shinyBackUrls = [''];
+
 
     // console.log(pokeTree)
     // console.log(pokemonInfo)
@@ -53,28 +52,33 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
       };
 
     const customStyles = {
-        overlay: {zIndex: 1000}
+        overlay: {
+            zIndex: 1000,
+            background: 'rgba(0, 0, 0, 0.5)',
+        },
+        content: {
+            background:'grey',
+            border:'none',
+        }
       };
 
+        const artworkUrl = GetPokemonImg({Pokemon:{name:selectedPokemon, type:'officialArtwork'}})
 
-    if (selectedPokemon!==''){
-        artworkUrl = GetPokemonImg({Pokemon:{name:selectedPokemon, type:'officialArtwork'}})
+        const animatedUrl = GetPokemonImg({Pokemon:{name:selectedPokemon, type:'animated'}})
 
-        animatedUrl = GetPokemonImg({Pokemon:{name:selectedPokemon, type:'animated'}})
+        const spriteFrontUrls = [GetPokemonImg({Pokemon:{name:selectedPokemon, type:'frontSprite', gender:'male'}}),
+                                 GetPokemonImg({Pokemon:{name:selectedPokemon, type:'frontSprite', gender:'female'}})]
 
-        spriteFrontUrls = [GetPokemonImg({Pokemon:{name:selectedPokemon, type:'frontSprite', gender:'male'}}),
-                           GetPokemonImg({Pokemon:{name:selectedPokemon, type:'frontSprite', gender:'female'}})]
+        const spriteBackUrls = [GetPokemonImg({Pokemon:{name:selectedPokemon, type:'backSprite', gender:'male'}}),
+                                GetPokemonImg({Pokemon:{name:selectedPokemon, type:'backSprite', gender:'female'}})]
 
-        spriteBackUrls = [GetPokemonImg({Pokemon:{name:selectedPokemon, type:'backSprite', gender:'male'}}),
-                          GetPokemonImg({Pokemon:{name:selectedPokemon, type:'backSprite', gender:'female'}})]
-
-        shinyFrontUrls =[GetPokemonImg({Pokemon:{name:selectedPokemon, type:'frontShiny', gender:'male'}}),
-                         GetPokemonImg({Pokemon:{name:selectedPokemon, type:'frontShiny', gender:'female'}})];
+        const shinyFrontUrls =[GetPokemonImg({Pokemon:{name:selectedPokemon, type:'frontShiny', gender:'male'}}),
+                               GetPokemonImg({Pokemon:{name:selectedPokemon, type:'frontShiny', gender:'female'}})];
 
         
-        shinyBackUrls =[GetPokemonImg({Pokemon:{name:selectedPokemon, type:'backShiny', gender:'male'}}),
-                         GetPokemonImg({Pokemon:{name:selectedPokemon, type:'backShiny', gender:'female'}})];
-    }
+        const shinyBackUrls =[GetPokemonImg({Pokemon:{name:selectedPokemon, type:'backShiny', gender:'male'}}),
+                              GetPokemonImg({Pokemon:{name:selectedPokemon, type:'backShiny', gender:'female'}})];
+
 
     function LoadBattleImages(Urls:string[], ImgClass:string, SpanClass:string, isFront:boolean){
         if(Urls[0]!==Urls[1]){
@@ -184,6 +188,7 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
 
     function EvolutionMethod(methods:EvolutionsMethods){
         let Fullmethod = '';
+        let shed='';
         let itemName='';
         let heldingItemName='';
         let trade='';
@@ -218,6 +223,21 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
             case 3: {Fullmethod+=` being genderless`} break;
             }
         }
+        if(methods.minAffection!==null){
+            Fullmethod+=` and with level ${methods.minAffection} of affection`
+        }
+        if(methods.minBeautty!==null){
+            Fullmethod+=` and with ${methods.minBeautty}  of beauty`
+        }
+        if(methods.needsOverworldRain){
+            Fullmethod+=` when is raining`
+        }
+        if (methods.partyType!==null){
+            Fullmethod+=` and with a ${methods.partyType.name} type pokemon in party`
+        }
+        if(methods.trigger==='shed'){
+            shed+="Have Nincada in your party, as well as one additional open slot (so, a total of five or fewer Pokémon in your party), and at least one PokéBall in your bag. Then, evolve Nincada into Ninjask by raising it to level 20. You'll find a Shedinja added to your party in addition to the Ninjask once it has evolved."
+        }
         return (
             <>
             <span>{trade}</span>
@@ -227,17 +247,21 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
             {methods.heldItem!==null && (<div className="ItemImg"><img src={getItemImg(methods.heldItem.name)} alt={`${methods.heldItem.name} sprite`}/> 
             <span style={{textTransform:"capitalize", fontSize:"1.2rem"}}>({methods.heldItem.name})</span></div>
             )}
-            <span>{Fullmethod}</span>
+            <span >{Fullmethod}</span>
+            {(shed!=='') && (<span  className="tip" >{`${shed.slice(0,4)}...`}<span >{shed}</span></span>)}
             </>
             )
         
     }
+
+
     return(
         <Modal isOpen={isOpen} 
                onRequestClose={onRequestClose}
                style={customStyles}
         >
-        <Container >
+        <Container onAuxClick={(e)=>{ if(e.button!==2){e.preventDefault(); onRequestClose()}}}>
+            <CloseModalButton onClick={()=>onRequestClose()} ><FontAwesomeIcon style={{width:'3rem', color:'red'}} icon={faTimes}  size="3x"/></CloseModalButton>
             <PokemonCard>
             <img className="Artwork" src={artworkUrl} alt="Pokemon Artwork Image"/>
             <PokemonNameAndAbilities>
@@ -293,6 +317,5 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
             </ModalBody>
             </Container>
         </Modal>
-        
     )
 }

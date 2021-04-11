@@ -6,10 +6,10 @@ import Modal from 'react-modal'
 
 
 
-import { PokeCard } from "../pokecard/pokecard"
+import {PokeCard} from "../pokecard/pokecard"
 import { usePokemonsInfo } from "../../hooks/PokeContext";
 import { SearchBar } from '../searchBar/searchBar';
-import { useEffect, useRef, useState} from 'react';
+import { useEffect, useState} from 'react';
 import React from 'react';
 import { PokeInfoModal } from "../pokeInfoModal/pokeInfoModal";
 
@@ -99,7 +99,7 @@ export function HomePage (){
 
 
     useEffect(()=>{
-      if(selectedPokemon!==''){
+      if(selectedPokemon!=='' && !isPokeInfoModalOpen){
         handleOpenPokeInfoModal()
       }      
     },[pokeTree])

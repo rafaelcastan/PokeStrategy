@@ -1,5 +1,18 @@
 import styled, {css} from 'styled-components';
 
+export const CloseModalButton = styled.button`
+    z-index:1;
+    position:absolute;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    top:0;
+    right:0;
+    border: none;
+    outline: none;
+    cursor:pointer;
+    overflow: hidden;    
+`;
+
 
 export const PokemonCard = styled.div`
     display:flex;
@@ -8,8 +21,12 @@ export const PokemonCard = styled.div`
     height:auto;
     width:auto;
     border-radius:2rem;
+    margin-top:3rem;
     margin-bottom:2rem;
     flex-wrap:wrap;
+    position: relative;
+
+    
 
     .Artwork{
     width:20%;
@@ -22,7 +39,9 @@ export const PokemonCard = styled.div`
         width:8rem;
         max-width:160px;
         max-height:160px;
-        margin-left:9rem;
+        position: absolute;
+        right: 1rem;
+        bottom:1rem;
         align-self:flex-end;
     }
 `;
@@ -58,6 +77,11 @@ export const StatsBars = styled.div`
     margin-top:2rem;
     align-self: flex-start;
     width:30rem;
+    margin-bottom:2rem;
+
+    @media (max-width:660px){
+        margin-bottom:9rem;
+    }
 
     span{
         font-size:1.5rem;
@@ -75,6 +99,10 @@ export const PokemonsBattling = styled.div<ContainerProps>`
     margin-top:0;
     margin-left: ${(props)=>!props.isTwoPokemonsRenderized ? '-9rem' : '-2rem'};
     width:16rem;
+    position:relative;
+    margin-right:1rem;
+
+
 
     ${({ isPokemonBack })=>!isPokemonBack && css`
         margin-left: ${(props)=>!props.isTwoPokemonsRenderized ? '12.5rem' : '18rem'};
@@ -134,7 +162,10 @@ export const ModalBody = styled.div`
     display:flex;
     flex-wrap:wrap;
     align-items:center;
-    width:100%;
+    width:auto;
+    height:auto;
+    justify-content:space-evenly;
+    position:relative;
 `;
 
 export const EvolutionTree = styled.div`
@@ -163,12 +194,14 @@ export const EvolutionTree = styled.div`
             margin-top:0.5rem;
             margin-right:0.5rem;
             margin-left:0.5rem;
+            margin-bottom:0.5rem;
         }
         
     }
+    
 
     .EvolutionPokemonImg{
-        width:5rem;
+        width:7rem;
         margin-top:1rem;
         margin-left:1rem;
         margin-right:1rem;
@@ -180,10 +213,10 @@ export const EvolutionTree = styled.div`
         flex-wrap:wrap;
         align-items:center;
         border-radius:1rem;
-        border:solid grey;
-        margin-left:1rem;
+        border:solid black;
+        margin-left:50%;
         justify-content:space-evenly;
-        margin-left:31%;
+        margin-left:17vw;
 
         @media (min-width:512px){
             margin-left:0;
@@ -198,7 +231,7 @@ export const EvolutionTree = styled.div`
         flex-wrap:wrap;
         align-items:center;
         border-radius:1rem;
-        border:solid grey;
+        border:solid black;
         margin-left:1rem;
         justify-content:space-evenly;
     }
@@ -207,6 +240,7 @@ export const EvolutionTree = styled.div`
         display:flex;
         flex-direction:column;
         margin-top:0.5rem;
+        margin-left:0.5rem;
     }
 
     .EvolutionMethods{
@@ -217,6 +251,31 @@ export const EvolutionTree = styled.div`
         span{
             text-align:center;
             font-size:1.5rem;
+            width:50%
+        }
+        span.tip {
+            border-bottom: 1px dashed;
+            text-decoration: none
+        }
+        span.tip:hover {
+            cursor: help;
+            position: relative
+        }
+        span.tip span {
+            display: none
+        }
+        span.tip:hover span {
+            border: #c0c0c0 1px dotted;
+            padding: 5px 20px 5px 5px;
+            display: block;
+            z-index: 100;
+            background: #f0f0f0 no-repeat 100% 5%;
+            left: 0px;
+            margin: 10px;
+            position: absolute;
+            top: 10px;
+            text-decoration: none;
+            width:45vw;
         }
 
         .ItemImg{
@@ -235,7 +294,9 @@ export const Container = styled.div`
 
 display:flex;
 flex-direction:column;
-justify-content:space-between;
+justify-content:space-around;
+position:relative;
+
 
 .BattleBackground{
     position:absolute;
@@ -251,6 +312,7 @@ justify-content:space-between;
 }
 
 .BattleImage{
+    position:relative;
 }
 
 `;

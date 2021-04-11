@@ -42,7 +42,7 @@ export function SearchBar(){
 
         let pokemonExists = fullPokedex.filter((name)=> name.indexOf(search.toLowerCase()) > -1 )
         if((fullPokedex.indexOf(search.replace(/\s/g, '').toLowerCase())> -1)){ //Find Pokemon
-            SelectPokemon(search.toLowerCase())
+            SelectPokemon(search.toLowerCase().replace(/\s+/g, ''))
             setSearch('')
             setNotFound(false)
         }
@@ -53,10 +53,18 @@ export function SearchBar(){
             SelectPokemon(pokemonExists[0].toLowerCase())//auto-complete what user wright
             setSearch('')
             setNotFound(false)
-        }
-
-       
+        }       
     }
+
+    useEffect(()=>{
+        if(search!=='')
+        {
+            setDisplaySugestion(true)
+        }
+        else{
+            setDisplaySugestion(false)
+        }
+    },[search])
 
     useEffect(()=>{
         document.addEventListener('mouseup', handleClickOutside);
@@ -84,6 +92,15 @@ export function SearchBar(){
         }
     }
 
+    function ChangeTabIndex(Position:string){
+        if(Position==='down'){
+            
+        }
+        if(Position==='up'){
+            
+        }
+    }
+
     
     
     return(
@@ -101,25 +118,29 @@ export function SearchBar(){
             <input type="text" 
             placeholder="Search..." 
             value={search}
-            onClick={()=>{
+            onClick={()=>{if(search!==''){
                 setDisplaySugestion(true)
-            }}
+            }}}
             onKeyUp={event=> event.key === 'Escape' && setDisplaySugestion(false)}
             onChange={event=>{
-                setDisplaySugestion(true)
-                setSearch(event.target.value)
-                
+            setSearch(event.target.value)
             }}
             />
                 {displaySugestion && (
                     <div className="Sugestions">
-                        {fullPokedex.filter((name)=> name.indexOf(search.toLowerCase()) > -1 ).splice(0,52).map((value, index) =>{
+                        {fullPokedex.filter((name)=> name.indexOf(search.replace(/\s+/g, '').toLowerCase()) > -1 ).splice(0,52) //make the suggestion box only show pokemons that match the search and in alphabetical order
+                        .sort((primeiroNome, segundoNome) => primeiroNome.localeCompare(segundoNome))
+                        .map((value, index) =>{
+                            if(value.startsWith(search.replace(/\s+/g, '').toLowerCase().slice(0,search.length))){
                             return <div
                                     onMouseDown={ ()=>{ 
                                          setSearchValue(capitalizeFirstLetter(value))          
                                     }}
                                     onKeyPress={event=> {if(event.key === 'Enter'){
                                     setSearchValue(capitalizeFirstLetter(value))  
+                                    }}}
+                                    onKeyDown={event=>{if(event.key==='ArrowDown' || event.key==='Down'){
+                                        
                                     }}}
                                     ref={wrapperRef}
                                     tabIndex={0}
@@ -133,7 +154,7 @@ export function SearchBar(){
                                     key={Date.now()}
                                     loading="lazy"/>
                             </div>
-                        })}
+}})}
                     </div>
                 )}
                 <button type="submit"><FontAwesomeIcon icon={faSearch}  size="lg"/></button>
