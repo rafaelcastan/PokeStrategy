@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Switch from "react-switch";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import {Img} from 'react-image';
 
 import { Container, PokemonsBattling, PokemonCard, 
          PokemonNameAndAbilities, StatsBars, EvolutionTree, 
@@ -101,7 +102,7 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
             return(
                 <PokemonsBattling isTwoPokemonsRenderized={true} isPokemonBack={isFront}>
                 <div className="imgBattleWrap">
-                    <img className={ImgClass} src={Urls[0]} alt={`${selectedPokemon}+Front Sprite`}/>
+                    <Img className={ImgClass} src={[Urls[0], 'https://static.wikia.nocookie.net/pokemon/images/5/57/FRLG_Leaf_Back_Sprite.png']} alt={`${selectedPokemon} Sprite`}/>
                 </div>
                 </PokemonsBattling>
             )

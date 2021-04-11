@@ -110,13 +110,13 @@ export const PokemonsBattling = styled.div<ContainerProps>`
     `}
         
     .PokemonBattleBackSprite{
-        margin-top:-1rem;
+        margin-top:-1.3rem;
         width:16rem;
 }
 
 
 .PokemonBattleFrontSprite{
-    margin-top:8rem;
+    margin-top:9rem;
     width:12rem;
 }
 
