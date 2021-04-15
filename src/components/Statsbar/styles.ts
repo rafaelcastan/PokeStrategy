@@ -19,6 +19,7 @@ export const Container = styled.div<ContainerProps>`
     align-items: center;
     justify-content:space-between;
     flex-basis: 100%;
+    
 
     
 
@@ -35,6 +36,7 @@ export const Container = styled.div<ContainerProps>`
     width:100%;
     overflow:hidden;
     flex: 0 1 auto;
+    border: solid black;
     }
 
     span{

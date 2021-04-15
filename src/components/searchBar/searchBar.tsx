@@ -4,6 +4,7 @@ import { faSearch, faSpinner, faFileExcel } from '@fortawesome/free-solid-svg-ic
 import {Img} from 'react-image';
 
 
+
 import { Container,NavBar } from "./styles";
 import { usePokemonsInfo } from "../../hooks/PokeContext";
 import PokedexIcon from '../../assets/pokedex.svg';
@@ -128,11 +129,11 @@ export function SearchBar(){
             />
                 {displaySugestion && (
                     <div className="Sugestions">
-                        {fullPokedex.filter((name)=> name.indexOf(search.replace(/\s+/g, '').toLowerCase()) > -1 ).splice(0,52) //make the suggestion box only show pokemons that match the search and in alphabetical order
+                        {fullPokedex.filter((name)=> name.indexOf(search.replace(/\s+/g, '').toLowerCase()) > -1 )//make the suggestion box only show pokemons that match the search and in alphabetical order
                         .sort((primeiroNome, segundoNome) => primeiroNome.localeCompare(segundoNome))
                         .map((value, index) =>{
                             if(value.startsWith(search.replace(/\s+/g, '').toLowerCase().slice(0,search.length))){
-                            return <div
+                            return( <div
                                     onMouseDown={ ()=>{ 
                                          setSearchValue(capitalizeFirstLetter(value))          
                                     }}
@@ -153,7 +154,7 @@ export function SearchBar(){
                                     unloader={<FontAwesomeIcon icon={faFileExcel}/>}
                                     key={Date.now()}
                                     loading="lazy"/>
-                            </div>
+                            </div>)
 }})}
                     </div>
                 )}

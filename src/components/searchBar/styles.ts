@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {darken,transparentize} from 'polished';
+import {transparentize} from 'polished';
 
 export const NavBar = styled.div`
     width:100%;

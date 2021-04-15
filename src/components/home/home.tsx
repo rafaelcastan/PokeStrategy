@@ -1,9 +1,7 @@
 import { Container, StyledLoader } from "./styles"
 import { FixedSizeGrid  as Grid  } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { Suspense, lazy } from 'react';
 import Modal from 'react-modal'
-
 
 
 import {PokeCard} from "../pokecard/pokecard"
@@ -115,7 +113,7 @@ export function HomePage (){
 
     return (
       <StyledLoader
-      active={loading}
+      active={loading && !isPokeInfoModalOpen}
       spinner
       text='Loading your content...'
       >

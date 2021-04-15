@@ -1,5 +1,19 @@
 import {createContext, ReactNode, useEffect, useState, useContext} from 'react';
 
+interface PokemonsInfoContextData{
+    pokedex: PokedexProps[];
+    fullPokedex: string[];
+    selectedPokemon:string;
+    // GetMorePokemons:()=>void;
+    capitalizeFirstLetter:(string)=>string;
+    actualizePokedex:(string)=>void;
+    SelectPokemon:(string)=>void;
+    pokeTree:PokemonEvolutionTreeProps;
+    pokemonInfo:PokemonInfoProps;
+    loading:boolean;
+    getTypeRelations:()=>void;
+}
+
 interface PokemonsInfoProviderProps {
     children: ReactNode;
 }
@@ -27,7 +41,7 @@ interface Evolution{
                 partyType:{name:string, url:string},
                 relativePhysicalStats: number,
                 timeOfDay: string,
-                tradeSpecies: string,
+                tradeSpecies: {name:string,url:string},
                 trigger:string
         }[]
         evolution:{
@@ -48,7 +62,7 @@ interface Evolution{
                 partyType:{name:string, url:string},
                 relativePhysicalStats: number,
                 timeOfDay: string,
-                tradeSpecies: string,
+                tradeSpecies: {name:string,url:string},
                 trigger:string,
         }[]
         }[]
@@ -59,6 +73,7 @@ interface PokemonInfoProps{
     moves:{name:string,version:{levelLearned:number,learnMethod:string, version:string}[]}[],
     stats:{name:string, value:number}[],
     description:string,
+    types:{name:string,url:string}[]
 }
 
 
@@ -86,7 +101,7 @@ const EvolutionInitialState = {
                 partyType:{name:'', url:''},
                 relativePhysicalStats:0,
                 timeOfDay:'',
-                tradeSpecies:'',
+                tradeSpecies:{name:'',url:''},
                 trigger:'',
         }],
         evolution:[{
@@ -107,7 +122,7 @@ const EvolutionInitialState = {
                 partyType:{name:'', url:''},
                 relativePhysicalStats:0,
                 timeOfDay:'',
-                tradeSpecies:'',
+                tradeSpecies:{name:'',url:''},
                 trigger:'',
         }]
         }]
@@ -123,27 +138,32 @@ const PokemonEvolutionTreeError = {
     evolutions:[EvolutionInitialState]}
 }
 
-interface PokemonsInfoContextData{
-    pokedex: PokedexProps[];
-    fullPokedex: string[];
-    selectedPokemon:string;
-    // GetMorePokemons:()=>void;
-    capitalizeFirstLetter:(string)=>string;
-    actualizePokedex:(string)=>void;
-    SelectPokemon:(string)=>void;
-    pokeTree:PokemonEvolutionTreeProps;
-    pokemonInfo:PokemonInfoProps;
-    loading:boolean;
-}
 
 const PokeInfoInitialState = {
     abilities:[{name:'',isHidden:false}],
             moves:[{name:'',version:[{levelLearned:0,learnMethod:'', version:''}]}],
             stats:[{name:'', value:0}],
-            description:''
+            description:'',
+            types:[{name:'', url:''}]
 }
 
+interface typeRelationsProps{
+    doubleDamageFrom: string[],
+    doubleDamageTo: string[],
+    halfDamageFrom: string[],
+    halfDamageTo: string[],
+    noDamageFrom: string[],
+    noDamageTo: string[],
+}
 
+let typeRelationsInitial = {
+    doubleDamageFrom: [''],
+    doubleDamageTo: [''],
+    halfDamageFrom: [''],
+    halfDamageTo: [''],
+    noDamageFrom: [''],
+    noDamageTo: [''],
+}
 
 const PokemonsInfoContext = createContext<PokemonsInfoContextData>(
     {} as PokemonsInfoContextData
@@ -162,8 +182,10 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     const [pokemonInfo, setPokemonInfo] = useState<PokemonInfoProps>(PokeInfoInitialState);
     const [pokeTree, setPokeTree] = useState<PokemonEvolutionTreeProps>(PokemonEvolutionTreeInitial);
     const [loading,setLoading] = useState(false);
+    
     var PokeDB = require('pokedex-promise-v2');
     var PokeSearch = new PokeDB();
+
  
     function SelectPokemon (Pokemon:string){
         setSelectedPokemon(Pokemon)
@@ -174,6 +196,59 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
             GetPokemonInfo(Pokemon)
         }
     }
+
+    function getTypeRelations (){
+        const [typesRelations, setTypesRelations] = useState<typeRelationsProps[]>([{...typeRelationsInitial}]);
+        let TempTypes : typeRelationsProps[] = [{...typeRelationsInitial}]
+        useEffect(()=>{
+        pokemonInfo.types.map((type,index1)=>{
+            PokeSearch.getTypeByName(type.name)
+            .then((response)=>{
+                TempTypes[index1]={
+                    doubleDamageFrom: [''],
+                    doubleDamageTo: [''],
+                    halfDamageFrom: [''],
+                    halfDamageTo: [''],
+                    noDamageFrom: [''],
+                    noDamageTo: [''],
+                }
+
+                response.damage_relations.double_damage_from.map((type, index)=>{
+          
+                    TempTypes[index1].doubleDamageFrom[index]=type.name;
+                })
+
+                response.damage_relations.double_damage_to.map((type, index)=>{
+                  
+                    TempTypes[index1].doubleDamageTo[index]=type.name;
+                })
+
+                response.damage_relations.half_damage_from.map((type, index)=>{
+          
+                    TempTypes[index1].halfDamageFrom[index]=type.name;
+                })
+
+                response.damage_relations.half_damage_to.map((type, index)=>{
+                
+                    TempTypes[index1].halfDamageTo[index]=type.name;
+                })
+
+                response.damage_relations.no_damage_from.map((type, index)=>{
+             
+                    TempTypes[index1].noDamageFrom[index]=type.name;
+                })
+
+                response.damage_relations.no_damage_to.map((type, index)=>{
+           
+                    TempTypes[index1].noDamageTo[index]=type.name;
+                })
+                return(TempTypes)
+            }).then(()=>{setTypesRelations(TempTypes)}).catch((error)=>console.log(error))
+            })},[]) 
+            return(typesRelations)
+    }
+        
+    
 
     function GetPokemonInfo(PokemonName:string){
         let tempPokeInfo = {} as PokemonInfoProps;
@@ -193,7 +268,11 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
                                             learnMethod:props.move_learn_method.name,
                                             version: props.version_group.name})
                                    })})
-                      })       
+                      })
+                      tempPokeInfo.types =  response.types.map(props=>{
+                        return ({name:props.type.name, 
+                                 url:props.type.name
+                                 })})      
     })
     //.then(()=>{
     //     PokeSearch.getPokemonByName(PokemonName).then((response)=>{
@@ -225,9 +304,7 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     //})
     .then(()=>{
         setPokemonInfo(tempPokeInfo)
-    }
-        )
-    
+    }).catch((error)=>console.log(error))
     }
 
     function GetPokemonEvolutionTree(PokemonName:string){
@@ -238,12 +315,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
             return response.id
         }).then((Id)=>{
             return PokeSearch.getPokemonSpeciesByName(Id)
-        }).catch(()=>{setLoading(false), setPokeTree(PokeNotFind)})
+        })
         .then((response)=>{
-            if (response===undefined){
-                setPokeTree(PokeNotFind)
-                setLoading(false)
-            }
         fetch(response.evolution_chain.url)
         .then(response=>response.json())
         .then(response=>{
@@ -323,8 +396,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
 ).then(()=>{
     setPokeTree(tempPokeInfo)
     setLoading(false)
-})
-})
+}).catch(()=>{setLoading(false), setPokeTree(PokeNotFind)})
+}).catch(()=>{setLoading(false), setPokeTree(PokeNotFind)})
  }
 
     function offsetChange(){
@@ -387,7 +460,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
 
     return(
         <PokemonsInfoContext.Provider value={{pokedex, fullPokedex, capitalizeFirstLetter, 
-                                              actualizePokedex, selectedPokemon, SelectPokemon, pokeTree, pokemonInfo, loading}}>
+                                              actualizePokedex, selectedPokemon, SelectPokemon, 
+                                              pokeTree, pokemonInfo, loading, getTypeRelations}}>
             {children}
         </PokemonsInfoContext.Provider>
     )

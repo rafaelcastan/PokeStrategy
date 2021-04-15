@@ -1,10 +1,11 @@
+import { memo } from 'react';
 import {Container} from './styles'
 
 interface StatsBarProps{
     Value:number,
 }
 
-export function StatsBar ({Value}:StatsBarProps){
+function StatsBar ({Value}:StatsBarProps){
 
     // let MaxValue = {hp: 250,
     //                 attack: 190,
@@ -40,10 +41,12 @@ export function StatsBar ({Value}:StatsBarProps){
             <div className="Bar">
                 <div className="Progress" style={{
                     width: `${BarFill}%`,
-                    transition: '1s width linear'
+                    transition: '2s width linear'
                 }}/>
             </div>
             <span>{Value}</span>
         </Container>
     )
 }
+
+export default memo(StatsBar)
