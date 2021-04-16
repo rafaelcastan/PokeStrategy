@@ -11,7 +11,7 @@ interface PokemonsInfoContextData{
     pokeTree:PokemonEvolutionTreeProps;
     pokemonInfo:PokemonInfoProps;
     loading:boolean;
-    getTypeRelations:()=>void;
+    typesRelations:typeRelationsProps[];
 }
 
 interface PokemonsInfoProviderProps {
@@ -74,6 +74,11 @@ interface PokemonInfoProps{
     stats:{name:string, value:number}[],
     description:string,
     types:{name:string,url:string}[]
+}
+
+interface getTypeRelationsProps{
+    name:string,
+    url:string
 }
 
 
@@ -182,6 +187,7 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     const [pokemonInfo, setPokemonInfo] = useState<PokemonInfoProps>(PokeInfoInitialState);
     const [pokeTree, setPokeTree] = useState<PokemonEvolutionTreeProps>(PokemonEvolutionTreeInitial);
     const [loading,setLoading] = useState(false);
+    const [typesRelations, setTypesRelations] = useState<typeRelationsProps[]>([{...typeRelationsInitial}]);
     
     var PokeDB = require('pokedex-promise-v2');
     var PokeSearch = new PokeDB();
@@ -192,16 +198,15 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
         setPokeTree(PokemonEvolutionTreeInitial)
         if(Pokemon!==''){
             setLoading(true)
-            GetPokemonEvolutionTree(Pokemon)
             GetPokemonInfo(Pokemon)
+            GetPokemonEvolutionTree(Pokemon)
+            
         }
     }
-
-    function getTypeRelations (){
-        const [typesRelations, setTypesRelations] = useState<typeRelationsProps[]>([{...typeRelationsInitial}]);
-        let TempTypes : typeRelationsProps[] = [{...typeRelationsInitial}]
+        
         useEffect(()=>{
-        pokemonInfo.types.map((type,index1)=>{
+            let TempTypes : typeRelationsProps[] = [{...typeRelationsInitial}]
+            pokemonInfo.types.map((type,index1)=>{
             PokeSearch.getTypeByName(type.name)
             .then((response)=>{
                 TempTypes[index1]={
@@ -243,10 +248,10 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
                     TempTypes[index1].noDamageTo[index]=type.name;
                 })
                 return(TempTypes)
-            }).then(()=>{setTypesRelations(TempTypes)}).catch((error)=>console.log(error))
-            })},[]) 
-            return(typesRelations)
-    }
+            }).then((response)=>{setTypesRelations(response)})
+              .catch((error)=>console.log(error))
+            })},[pokemonInfo]) 
+    
         
     
 
@@ -254,6 +259,10 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
         let tempPokeInfo = {} as PokemonInfoProps;
         PokeSearch.getPokemonByName(PokemonName)
                   .then((response)=>{
+                    tempPokeInfo.types =  response.types.map(props=>{
+                        return ({name:props.type.name, 
+                                 url:props.type.url
+                                 })})   
                       tempPokeInfo.stats = response.stats.map(props=>{
                           return ({name:props.stat.name, value:props.base_stat})
                       })
@@ -269,10 +278,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
                                             version: props.version_group.name})
                                    })})
                       })
-                      tempPokeInfo.types =  response.types.map(props=>{
-                        return ({name:props.type.name, 
-                                 url:props.type.name
-                                 })})      
+                      return (tempPokeInfo)
+                         
     })
     //.then(()=>{
     //     PokeSearch.getPokemonByName(PokemonName).then((response)=>{
@@ -302,8 +309,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     //         })
     //     })
     //})
-    .then(()=>{
-        setPokemonInfo(tempPokeInfo)
+    .then((response)=>{
+        setPokemonInfo(response)
     }).catch((error)=>console.log(error))
     }
 
@@ -461,7 +468,7 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     return(
         <PokemonsInfoContext.Provider value={{pokedex, fullPokedex, capitalizeFirstLetter, 
                                               actualizePokedex, selectedPokemon, SelectPokemon, 
-                                              pokeTree, pokemonInfo, loading, getTypeRelations}}>
+                                              pokeTree, pokemonInfo, loading, typesRelations}}>
             {children}
         </PokemonsInfoContext.Provider>
     )

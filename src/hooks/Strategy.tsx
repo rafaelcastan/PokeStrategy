@@ -69,15 +69,15 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
                 case 'UU':{
                     if(pokemon!==undefined){
                         forFormat(`gen${gen+1}uu`).then((response)=>{
-                            let names = Object.keys(response.stats[pokemon])
+                            let names = Object.keys(response.dex[pokemon])
                             names.map((key,index)=>{
                                 pokemonBuild[index]={...PokemonBuildInitial}
                                 pokemonBuild[index].name = key
-                                pokemonBuild[index].moves = response.stats[pokemon][key]["moves"]
-                                pokemonBuild[index].item = response.stats[pokemon][key]["item"]
-                                pokemonBuild[index].ability = response.stats[pokemon][key]["ability"]
-                                pokemonBuild[index].nature = response.stats[pokemon][key]["nature"]
-                                pokemonBuild[index].evs = response.stats[pokemon][key]["evs"]
+                                pokemonBuild[index].moves = response.dex[pokemon][key]["moves"]
+                                pokemonBuild[index].item = response.dex[pokemon][key]["item"]
+                                pokemonBuild[index].ability = response.dex[pokemon][key]["ability"]
+                                pokemonBuild[index].nature = response.dex[pokemon][key]["nature"]
+                                pokemonBuild[index].evs = response.dex[pokemon][key]["evs"]
                             })
                             return(pokemonBuild)
                         })
@@ -91,15 +91,15 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
                 case 'OU':{
                     if(pokemon!==undefined){
                     forFormat(`gen${gen+1}ou`).then((response)=>{
-                        let names = Object.keys(response.stats[pokemon])
+                        let names = Object.keys(response.dex[pokemon])
                             names.map((key,index)=>{
                                 pokemonBuild[index]={...PokemonBuildInitial}
                                 pokemonBuild[index].name = key
-                                pokemonBuild[index].moves = response.stats[pokemon][key]["moves"]
-                                pokemonBuild[index].item = response.stats[pokemon][key]["item"]
-                                pokemonBuild[index].ability = response.stats[pokemon][key]["ability"]
-                                pokemonBuild[index].nature = response.stats[pokemon][key]["nature"]
-                                pokemonBuild[index].evs = response.stats[pokemon][key]["evs"]
+                                pokemonBuild[index].moves = response.dex[pokemon][key]["moves"]
+                                pokemonBuild[index].item = response.dex[pokemon][key]["item"]
+                                pokemonBuild[index].ability = response.dex[pokemon][key]["ability"]
+                                pokemonBuild[index].nature = response.dex[pokemon][key]["nature"]
+                                pokemonBuild[index].evs = response.dex[pokemon][key]["evs"]
                             })
                         
                             return(pokemonBuild)
@@ -113,15 +113,15 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
                 case 'NU':{
                     if(pokemon!==undefined){
                     forFormat(`gen${gen+1}nu`).then((response)=>{
-                        let names = Object.keys(response.stats[pokemon])
+                        let names = Object.keys(response.dex[pokemon])
                             names.map((key,index)=>{
                                 pokemonBuild[index]={...PokemonBuildInitial}
                                 pokemonBuild[index].name = key
-                                pokemonBuild[index].moves = response.stats[pokemon][key]["moves"]
-                                pokemonBuild[index].item = response.stats[pokemon][key]["item"]
-                                pokemonBuild[index].ability = response.stats[pokemon][key]["ability"]
-                                pokemonBuild[index].nature = response.stats[pokemon][key]["nature"]
-                                pokemonBuild[index].evs = response.stats[pokemon][key]["evs"]
+                                pokemonBuild[index].moves = response.dex[pokemon][key]["moves"]
+                                pokemonBuild[index].item = response.dex[pokemon][key]["item"]
+                                pokemonBuild[index].ability = response.dex[pokemon][key]["ability"]
+                                pokemonBuild[index].nature = response.dex[pokemon][key]["nature"]
+                                pokemonBuild[index].evs = response.dex[pokemon][key]["evs"]
                             })
                             return(pokemonBuild)
                         })
@@ -152,18 +152,18 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
         useEffect(()=>{ 
             available.gen.forEach((element,index) => {
                 forFormat(`gen${index+1}uu`).then((response)=>{
-                    if(response.stats[Pokemon]!==undefined){
+                    if(response.dex[Pokemon]!==undefined){
                         element.format.push('UU')
                     }
                 })
                 forFormat(`gen${index+1}ou`).then((response)=>{
-                    if(response.stats[Pokemon]!==undefined){
+                    if(response.dex[Pokemon]!==undefined){
                         element.format.push('OU')
                     }
                 })
-                if (index!==4 && index>0){ //erase index!==4 here to use dex
+                if (index>0){ //add (index!==4 && index>0) here to use stats
                 forFormat(`gen${index+1}nu`).then((response)=>{
-                    if(response.stats[Pokemon]!==undefined){
+                    if(response.dex[Pokemon]!==undefined){
                         element.format.push('NU') 
                     } 
                 }).then(()=>{

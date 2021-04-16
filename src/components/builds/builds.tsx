@@ -92,7 +92,7 @@ export function Builds (){
             }
             </div>
             <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end'}}>
-            <span>See more Builds at:  
+            <span>See more Builds and Info at:  
             <a href={`${smogonUrl}${selectedPokemon}`} 
                target="_blank">Smogon.com</a>
             </span>
