@@ -24,7 +24,7 @@ export function HomePage (){
     const [rowNumbers, setRowNumbers] = useState(187);
     const [rowSize, setRowSize] = useState(2.1);
     const [needRowUpdated, setNeedRowUpdated] = useState(true);
-    const [isScreenLandscape, setIsScreenLandscape] = useState(false);
+    const [isScreenLandscape, setIsScreenLandscape] = useState(true);
 
     if (typeof window !== 'undefined') {
       window.addEventListener("resize", updateScreen);
