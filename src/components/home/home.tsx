@@ -24,20 +24,28 @@ export function HomePage (){
     const [rowNumbers, setRowNumbers] = useState(187);
     const [rowSize, setRowSize] = useState(2.1);
     const [needRowUpdated, setNeedRowUpdated] = useState(true);
+    const [isScreenLandscape, setIsScreenLandscape] = useState(false);
 
     if (typeof window !== 'undefined') {
-      window.addEventListener("resize", updateGrid);
+      window.addEventListener("resize", updateScreen);
     }
 
     function rowUpdate(){
       if(needRowUpdated){
         setRowNumbers((fullPokedex.length/collumNumbers)+1)
-        updateGrid()
+        updateScreen()
         setNeedRowUpdated(false);
       }
     }
 
-    function updateGrid(){
+    function updateScreen(){
+        if(screen.availWidth<screen.availHeight){
+          setIsScreenLandscape(false)
+        }
+        else{
+          setIsScreenLandscape(true)
+        }
+
         setNeedRowUpdated(true);
         const XL = window.matchMedia("(min-width:1600px)").matches;
         const L = window.matchMedia("(min-width:1024px)").matches;
@@ -112,10 +120,16 @@ export function HomePage (){
       </div>
     );
 
+    useEffect(()=>{
+      if(screen.availWidth<screen.availHeight){
+        setIsScreenLandscape(false)
+      }
+    },[])
+
 
     return (
       <StyledLoader
-      active={screen.availWidth<screen.availHeight}
+      active={!isScreenLandscape}
       spinner = {<FontAwesomeIcon icon={faMobileAlt} size="6x" className="TurnPhone" ></FontAwesomeIcon>}
       text='Turn the screen'
       >
