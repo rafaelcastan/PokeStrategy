@@ -37,7 +37,7 @@ export const BuildWrap = styled.div`
         .ItemWrap{
             display:flex;
             align-items:center;
-            margin-top:2rem;
+            margin-top:2.5rem;
 
             img{
                 width:2.5rem;
@@ -45,4 +45,32 @@ export const BuildWrap = styled.div`
         }
         
     }
+
+    span.tip {
+            border-bottom: 1px dashed;
+            text-decoration: none
+        }
+        
+    span.tip:hover {
+            cursor: help;
+            position: relative;
+       }
+
+    span.tip span {
+            display: none
+        }
+        
+    span.tip:hover span {
+            border: #c0c0c0 1px dotted;
+            padding: 5px 20px 5px 5px;
+            display: block;
+            z-index: 100;
+            background: #f0f0f0 no-repeat 100% 5%;
+            left: 0px;
+            margin: 10px;
+            position: absolute;
+            top: 10px;
+            text-decoration: none;
+            width:45vw;
+        }
 `;

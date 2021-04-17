@@ -1,13 +1,15 @@
-import {createContext, memo, ReactNode, useContext, useEffect, useState} from 'react';
-import {forFormat, forGen, Generation} from '@smogon/sets/'
+import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
+import {forFormat} from '@smogon/sets/'
 
 interface PokemonStrategyProps {
     children: ReactNode;
 }
 
 interface PokemonStrategyData{
-    verifyAvailableGen:(string)=>AvailableGen;
+    verifyAvailableGen:(Pokemon:string)=>AvailableGen;
     getStrategy:({gen,format,pokemon}:getStrategyProps)=>PokemonBuild[];
+    itensDescription:itemDescription[];
+    naturesDescription:natureDescription[];
 }
 
 interface AvailableGen {
@@ -27,18 +29,18 @@ const PokemonStrategyContext = createContext(
 
 let PokemonBuildInitial = {
     name:'',
-            moves:[],
-            item:'',
-            ability:'',
-            nature:'',
-            evs:{
-                hp:0,
-                atk:0, 
-                def:0,
-                spa:0,
-                spd:0,
-                spe:0,
-            }   
+    moves:[],
+    item:'',
+    ability:'',
+    nature:'',
+    evs:{
+        hp:0,
+        atk:0, 
+        def:0,
+        spa:0,
+        spd:0,
+        spe:0,
+    }   
 }
 
 interface PokemonBuild{
@@ -57,13 +59,62 @@ interface PokemonBuild{
     }
 }
 
+let itemDescriptionInitial = {name : '', description : ''}
+
+interface itemDescription{
+    name:string,
+    description:string
+}
+
+let natureDescriptionInitial = {
+    name : '', 
+    increasedStat:'',
+    decreasedStat:''
+}
+
+interface natureDescription{
+    name:string,
+    increasedStat:string,
+    decreasedStat:string
+}
+
+const Natures = [		
+    'Adamant',	
+    'Brave',	
+    'Lonely',	
+    'Naughty',	
+    'Bold',	
+    'Impish',	
+    'Lax',	
+    'Relaxed',	
+    'Modest',	
+    'Mild',	
+    'Quiet',	
+    'Rash',	
+    'Calm',	
+    'Careful',	
+    'Gentle',	
+    'Sassy',	
+    'Hasty',	
+    'Jolly',	
+    'Naive',	
+    'Timid',	
+]
+
+
+
 export function PokemonStrategyProvider({children}:PokemonStrategyProps){
 
+    const [pokemonBuildCompleted, setPokemonBuildCompleted] = useState<PokemonBuild[]>([{...PokemonBuildInitial}]);
+    let itemDescription : itemDescription[] = [{...itemDescriptionInitial}];
+    const [itensDescription, setItensDescription] = useState<itemDescription[]>([])
+    const [naturesDescription, setNaturesDescription] = useState<natureDescription[]>([])
+    
+    var PokeDB = require('pokedex-promise-v2');
+    var PokeSearch = new PokeDB();
+
     function getStrategy({gen,format,pokemon}:getStrategyProps){
-        const [pokemonBuildCompleted, setPokemonBuildCompleted] = useState<PokemonBuild[]>([{...PokemonBuildInitial}])
         let pokemonBuild : PokemonBuild[] = [{...PokemonBuildInitial}]
-
-
         useEffect(()=>{
             switch (format){
                 case 'UU':{
@@ -133,8 +184,58 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
                 break;
             }
         },[gen,format])
+
         return pokemonBuildCompleted
     }
+
+    useEffect(()=>{
+        if(pokemonBuildCompleted!==undefined){
+        pokemonBuildCompleted.map((build, index)=>{
+            if(pokemonBuildCompleted[index].item!=='' && pokemonBuildCompleted[index].item!==undefined){
+            itemDescription[index]={...itemDescriptionInitial}
+            PokeSearch.getItemByName(build.item.toLowerCase().replaceAll(' ','-'))
+            .then((response)=>{
+                response.flavor_text_entries.map((description)=>{
+                    if(description.language.name.includes('en')){
+                        itemDescription[index].description=description.text
+                    }
+                })
+                itemDescription[index].name=build.item
+                return(itemDescription)
+            }).then((response)=>{
+                setItensDescription(response)
+            }).catch((error)=>console.log(error))
+        }
+        })
+    }
+    },[pokemonBuildCompleted])
+
+
+
+    useEffect(()=>{
+        let natureDescription : natureDescription[] = [{...natureDescriptionInitial}];
+             if(Natures!==undefined){
+                Natures.map((nature, index)=>{
+                    natureDescription[index]={...natureDescriptionInitial}
+                    PokeSearch.getNatureByName(nature.toLowerCase().replaceAll(' ','-'))
+                    .then((response)=>{
+                        
+                        natureDescription[index].increasedStat=response.increased_stat.name
+                        natureDescription[index].decreasedStat=response.decreased_stat.name
+                        natureDescription[index].name=nature
+                        return(natureDescription)
+                    }).then((response)=>{
+                        
+                        setNaturesDescription(response)
+                    }).catch((error)=>console.log(error))
+                })
+        }
+    },[])
+
+    
+
+
+    
 
     function verifyAvailableGen(Pokemon:string){
         let available : AvailableGen = 
@@ -295,7 +396,7 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
 
 
     return(
-        <PokemonStrategyContext.Provider value={{verifyAvailableGen, getStrategy}}>
+        <PokemonStrategyContext.Provider value={{verifyAvailableGen, getStrategy, itensDescription, naturesDescription}}>
             {children}
         </PokemonStrategyContext.Provider>
     )

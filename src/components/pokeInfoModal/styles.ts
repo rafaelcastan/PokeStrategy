@@ -1,5 +1,5 @@
 import { darken } from 'polished';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 
 export const CloseModalButton = styled.button`
     z-index:1;
@@ -54,19 +54,6 @@ interface TypesPropsMixed{
     |'ground'|'flying'|'psychic'|'bug'|'rock'|'ghost'|'dragon'|'dark'|'steel'|'fairy';
 }
 
-export const TypesRelationsBoxMixed = styled.div<TypesPropsMixed>`
-
-    margin:2rem;
-    flex:30%;
-    border: solid black;
-    padding:1rem;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    flex-wrap:wrap;
-    border-radius:2rem;
-    background-image: linear-gradient(to bottom right, ${(props)=>`${darken(0.1,typesColors[props.type1])}, ${darken(0.1,typesColors[props.type2])}`} ) 
-`;
 
 export const TypesRelationsBox = styled.div<TypesProps>`
 
@@ -83,48 +70,6 @@ export const TypesRelationsBox = styled.div<TypesProps>`
 
 `;
 
-export const TypesChart = styled.div`
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-`;
-
-export const TypesWrap = styled.div`
-    display:flex;
-    flex-direction:row;
-    width:50%;
-
-    span{
-        font-size:1.8rem;
-        font-weight: bold;
-    }
-
-    .TypesAdvantageBox{
-        display:flex;
-        flex-direction:row;
-        flex-wrap:wrap;
-        justify-content:center;
-    }
-
-    .TypesMixedTitle{
-        display:flex;
-        flex-direction:row;
-        justify-content:center;
-        align-items:center;
-    }
-`;
-
-export const PokemonTypeRelations = styled.div<TypesProps>`
-    margin-top:0.5rem;
-    background: ${props=>typesColors[props.types]};
-    font-size:2rem;
-    width:9rem;
-    border-radius:1rem;
-    text-align:center;
-    border: solid black;
-    font-weight: bold;
-    margin:0.5rem;
-`;
 
 export const PokemonType = styled.div<TypesProps>`
     margin-top:0.5rem;
@@ -152,6 +97,34 @@ export const PokemonCard = styled.div<TypesPropsMixed>`
     position: relative;
     border: solid black;
     font-weight: 600;
+
+    span.tip {
+            
+            text-decoration: none
+        }
+        
+    span.tip:hover {
+            cursor: help;
+            position: relative
+       }
+
+    span.tip span {
+            display: none
+        }
+        
+    span.tip:hover span {
+            border: #c0c0c0 1px dotted;
+            padding: 5px 20px 5px 5px;
+            display: block;
+            z-index: 100;
+            background: #f0f0f0 no-repeat 100% 5%;
+            left: 0px;
+            margin: 10px;
+            position: absolute;
+            top: 10px;
+            text-decoration: none;
+            width:45vw;
+        }
 
     
 
@@ -259,6 +232,7 @@ position:relative;
 .BattleImage{
     align-self:flex-start;
     margin-top:2.2rem;
+    margin-right:2rem;
 }
 
 `;

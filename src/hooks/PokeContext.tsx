@@ -4,14 +4,21 @@ interface PokemonsInfoContextData{
     pokedex: PokedexProps[];
     fullPokedex: string[];
     selectedPokemon:string;
+    pokeTree:PokemonEvolutionTreeProps;
+    pokemonInfo:PokemonInfoProps;
+    loading:boolean;
+    abilitiesDescription:abilitiesDescription[];
+    typesRelations:typeRelationsProps[];
     // GetMorePokemons:()=>void;
     capitalizeFirstLetter:(string)=>string;
     actualizePokedex:(string)=>void;
     SelectPokemon:(string)=>void;
-    pokeTree:PokemonEvolutionTreeProps;
-    pokemonInfo:PokemonInfoProps;
-    loading:boolean;
-    typesRelations:typeRelationsProps[];
+
+}
+
+interface abilitiesDescription{
+    name:string,
+    description:string
 }
 
 interface PokemonsInfoProviderProps {
@@ -74,11 +81,6 @@ interface PokemonInfoProps{
     stats:{name:string, value:number}[],
     description:string,
     types:{name:string,url:string}[]
-}
-
-interface getTypeRelationsProps{
-    name:string,
-    url:string
 }
 
 
@@ -170,6 +172,8 @@ let typeRelationsInitial = {
     noDamageTo: [''],
 }
 
+let abilityDescInitial = {name : '', description : ''}
+
 const PokemonsInfoContext = createContext<PokemonsInfoContextData>(
     {} as PokemonsInfoContextData
 );
@@ -188,6 +192,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     const [pokeTree, setPokeTree] = useState<PokemonEvolutionTreeProps>(PokemonEvolutionTreeInitial);
     const [loading,setLoading] = useState(false);
     const [typesRelations, setTypesRelations] = useState<typeRelationsProps[]>([{...typeRelationsInitial}]);
+    const [abilitiesDescription, setAbilitiesDescription] = useState<abilitiesDescription[]>([])
+    let abilityDescription : abilitiesDescription[] = [{...abilityDescInitial}];
     
     var PokeDB = require('pokedex-promise-v2');
     var PokeSearch = new PokeDB();
@@ -203,9 +209,30 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
             
         }
     }
+
+    
+    useEffect(()=>{
+        if(pokemonInfo.abilities[0].name!==''){
+        pokemonInfo.abilities.map((abilities,index)=>{
+            abilityDescription[index] = {...abilityDescInitial}
+            PokeSearch.getAbilityByName(abilities.name).then((response)=>{
+                response.flavor_text_entries.map((ability)=>{
+                    if(ability.language.name.includes('en')){
+                        abilityDescription[index].description=ability.flavor_text
+                    }
+                })
+                abilityDescription[index].name=capitalizeFirstLetter(abilities.name)
+                return(abilityDescription)
+            }).then((response)=>{
+                setAbilitiesDescription(response)
+            })
+        })
+    }
+    },[pokemonInfo.abilities])
         
         useEffect(()=>{
             let TempTypes : typeRelationsProps[] = [{...typeRelationsInitial}]
+            if(pokemonInfo!==undefined){
             pokemonInfo.types.map((type,index1)=>{
             PokeSearch.getTypeByName(type.name)
             .then((response)=>{
@@ -250,10 +277,10 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
                 return(TempTypes)
             }).then((response)=>{setTypesRelations(response)})
               .catch((error)=>console.log(error))
-            })},[pokemonInfo]) 
+              
+            })}},[pokemonInfo]) 
     
         
-    
 
     function GetPokemonInfo(PokemonName:string){
         let tempPokeInfo = {} as PokemonInfoProps;
@@ -468,7 +495,7 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     return(
         <PokemonsInfoContext.Provider value={{pokedex, fullPokedex, capitalizeFirstLetter, 
                                               actualizePokedex, selectedPokemon, SelectPokemon, 
-                                              pokeTree, pokemonInfo, loading, typesRelations}}>
+                                              pokeTree, pokemonInfo, loading, typesRelations, abilitiesDescription}}>
             {children}
         </PokemonsInfoContext.Provider>
     )

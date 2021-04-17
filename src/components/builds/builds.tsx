@@ -15,7 +15,7 @@ interface AvailableGen {
 
 export function Builds (){
     const {selectedPokemon, capitalizeFirstLetter} =usePokemonsInfo();
-    const {verifyAvailableGen} = usePokemonStrategy()
+    const {verifyAvailableGen, itensDescription} = usePokemonStrategy()
     const smogonUrl = "https://www.smogon.com/dex/ss/pokemon/"
     
 

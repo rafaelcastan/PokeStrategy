@@ -130,7 +130,7 @@ else{
                 
 
     return(
-        <div>
+        <>
     {!isShiny ? (
                 <div>
                 <LoadBattleImages isShiny={isShiny}/>
@@ -140,7 +140,7 @@ else{
                 <LoadBattleImages isShiny={isShiny}/>
                 </div>
             )} 
-    </div>   
+    </>   
     )
 
 }
