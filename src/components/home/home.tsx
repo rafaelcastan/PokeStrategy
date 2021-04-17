@@ -10,6 +10,8 @@ import { SearchBar } from '../searchBar/searchBar';
 import { useEffect, useState} from 'react';
 import React from 'react';
 import { PokeInfoModal } from "../pokeInfoModal/pokeInfoModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMobileAlt } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -38,7 +40,7 @@ export function HomePage (){
     function updateGrid(){
         setNeedRowUpdated(true);
         const XL = window.matchMedia("(min-width:1600px)").matches;
-        const L = window.matchMedia("(min-width:1280px)").matches;
+        const L = window.matchMedia("(min-width:1024px)").matches;
         const M = window.matchMedia("(min-width:600px)").matches;
         const S = window.matchMedia("(min-width:360px)").matches;
        
@@ -49,8 +51,8 @@ export function HomePage (){
           setCollumNumbers(5)
           setRowSize(1.8)
         } else if (M) {
-          setCollumNumbers(4)
-          setRowSize(1.5)
+          setCollumNumbers(3)
+          setRowSize(1.6)
         } else if (S) {
           setCollumNumbers(3)
           setRowSize(1)
@@ -65,7 +67,7 @@ export function HomePage (){
       if (typeof window !== 'undefined') {
         const S = window.matchMedia("(min-width:360px)").matches;
         const M = window.matchMedia("(min-width:600px)").matches;
-        const L = window.matchMedia("(min-width:1280px)").matches;
+        const L = window.matchMedia("(min-width:1024px)").matches;
         const XL = window.matchMedia("(min-width:1600px)").matches;
         if (XL) {
           setCollumNumbers(6)
@@ -74,8 +76,8 @@ export function HomePage (){
           setCollumNumbers(5)
           setRowSize(2.1)
         } else if (M) {
-          setCollumNumbers(4)
-          setRowSize(2.1)
+          setCollumNumbers(3)
+          setRowSize(1.6)
         } else if (S) {
           setCollumNumbers(3)
           setRowSize(1)
@@ -113,6 +115,11 @@ export function HomePage (){
 
     return (
       <StyledLoader
+      active={screen.availWidth<screen.availHeight}
+      spinner = {<FontAwesomeIcon icon={faMobileAlt} size="6x" className="TurnPhone" ></FontAwesomeIcon>}
+      text='Turn the screen'
+      >
+      <StyledLoader
       active={loading && !isPokeInfoModalOpen}
       spinner
       text='Loading your content...'
@@ -145,6 +152,7 @@ export function HomePage (){
           )}
               </AutoSizer>)}
         </Container>
+        </StyledLoader>
         </StyledLoader>
       )
 }

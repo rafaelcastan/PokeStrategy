@@ -5,6 +5,20 @@ export const StyledLoader = styled(LoadingOverlay)`
     position:absolute;
     width:100vw;
     height:100vh;
+
+    @keyframes turn {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(90deg);}
+}
+
+    .TurnPhone{
+        animation-name: turn;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        position:absolute;
+        top:30vh;
+        right:43vw;
+    }
 `;
 
 export const Container = styled.div`  
@@ -24,7 +38,6 @@ export const Container = styled.div`
             margin-left:1.5rem;
             padding:0%;
             margin-top:6rem;
-            
         }
         
 `;

@@ -35,7 +35,7 @@ export const Container = styled.div<ContainerProps>`
         display: -webkit-box;
         -webkit-line-clamp: 2; /* number of lines to show */
         -webkit-box-orient: vertical;
-        @media (max-width:767px){
+        @media (max-width:640px){
             font-size:calc(0.78rem * ${(props)=>props.resize});
        }
     }

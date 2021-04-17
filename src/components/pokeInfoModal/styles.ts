@@ -161,9 +161,20 @@ export const PokemonNameAndAbilities = styled.div`
         font-size:4rem;
         text-transform:capitalize;
 
+        
+        @media (max-width:1440px){
+        font-size:3rem;
+        }
+
         @media (max-width:550px){
         font-size:2.5rem;
-    }
+        }
+
+        @media (max-width:340px){
+        font-size:2rem;
+        }
+
+        
     }
 
     .PokemonCardTitle{
