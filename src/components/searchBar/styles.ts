@@ -33,9 +33,10 @@ export const NavBar = styled.div`
             right:20%;
             top:1rem;
             max-width:5rem;
-            @media (max-width:1205px){
+
+            @media (max-width:1350px){
                 right:1%;
-                top:1%;
+                top:1rem;
                 max-width:5rem;
             }
         }

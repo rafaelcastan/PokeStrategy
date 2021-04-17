@@ -41,6 +41,7 @@ export function HomePage (){
     function updateScreen(){
         if(screen.availWidth<screen.availHeight){
           setIsScreenLandscape(false)
+          handleClosePokeInfoModal()
         }
         else{
           setIsScreenLandscape(true)
