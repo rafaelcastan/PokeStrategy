@@ -40,9 +40,6 @@ export const Container = styled.div`
     flex-direction:column;
 
     
-
-    
-
     table {
         width:80vw;
         border-spacing: 0 0.5rem;
@@ -50,6 +47,11 @@ export const Container = styled.div`
         border-collapse: collapse;
         background:#B5B5B5;
 
+        @media (max-width:905px){
+            margin-left:22rem;
+       }
+
+    
 
         th {
             padding: 1rem 2rem;
