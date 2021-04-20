@@ -68,7 +68,8 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
             {pokemonInfo.abilities.map((abilities,index)=>{
                 return(
                     <div key={selectedPokemon+abilities.name+index}>
-                    <span className="tip" >{abilities.name}<span >{abilitiesDescription[index]!==undefined && (abilitiesDescription[index].description)}</span></span>
+                    <span className="tip" >{abilities.name.replace('-',' ')}<span >{abilitiesDescription[index]!==undefined && 
+                    (abilitiesDescription[index].description)}</span></span>
                     {abilities.isHidden && <span>: Hidden</span>}
                     </div>
                 )
@@ -119,7 +120,10 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
                 )
             })}
             </StatsBars>
-            <AnimatedSprite/>
+            {screen.availWidth>1480 && (
+                <AnimatedSprite/>
+            )}
+            
             </PokemonCard>
             <TypeRelationsChart/>
 

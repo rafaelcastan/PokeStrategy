@@ -228,23 +228,23 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     function SelectPokemon (Pokemon:string){
         setSelectedPokemon(Pokemon)
         setPokeTree(PokemonEvolutionTreeInitial)
+   
         if(Pokemon!==''){
             setLoading(true)
             GetPokemonInfo(Pokemon)
             GetPokemonEvolutionTree(Pokemon)
-            changeLearnSets(7)
-            
+          
         }
     }
 
     function changeSelectedGen(Gen:number){
         setSelectedGen(Gen)
-        changeLearnSets(Gen)
     }
 
-    function changeLearnSets(Gen:number){
+    useEffect(()=>{
+        if(selectedPokemon!==''){
         let TempLearnSets : LearnSetsProps[] = [{...LearnSetsInitialState}];
-        Dex.forGen(Gen+1).learnsets.get(selectedPokemon).then((response)=>{
+        Dex.forGen(selectedGen+1).learnsets.get(selectedPokemon).then((response)=>{
             Object.entries(response.learnset).map((move, index)=>{
                 TempLearnSets[index] = {...LearnSetsInitialState}
                 TempLearnSets[index].name=move[0]
@@ -254,6 +254,9 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
         }).then((LearnSet)=>setMovesLeanSets(LearnSet))
         .catch((error)=>console.log(error))
     }
+    },[selectedGen,selectedPokemon])
+        
+    
 
     function moveType ({move,infoType}:moveType){
         if(move!=='' && move!==undefined){
@@ -297,7 +300,7 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
         
         useEffect(()=>{
             let TempTypes : typeRelationsProps[] = [{...typeRelationsInitial}]
-            if(pokemonInfo!==undefined || pokemonInfo.types[0].name!==''){
+            if(pokemonInfo!==undefined || selectedPokemon!==''){
             pokemonInfo.types.map((type,index1)=>{
             PokeSearch.getTypeByName(type.name)
             .then((response)=>{

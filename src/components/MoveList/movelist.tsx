@@ -24,8 +24,6 @@ export function MoveList (){
     let availableMethods = []
     const categoryImgUrl = "https://play.pokemonshowdown.com/sprites/categories/"
 
-    console.log(movesLearnSets)
-
 
     let count=0
     movesLearnSets.map((move)=>{ //getting only the moves that are selected in learnMethods

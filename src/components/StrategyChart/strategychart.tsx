@@ -18,7 +18,7 @@ export function StrategyChart({selectedGen,format}:StrategyChartProps){
 
     useEffect(()=>{
         setHaveUpdate(!haveUpdate)
-    },[itensDescription])
+    },[itensDescription, abilitiesDescription])
  
    return(
        <>
@@ -59,7 +59,8 @@ export function StrategyChart({selectedGen,format}:StrategyChartProps){
                             <span style={{marginRight:"0.5rem"}}>Ability:</span>
                     <span className="tip" >{builds.ability}
                         <span >
-                        {abilitiesDescription.map((abilities)=>{if(builds.ability===abilities.name){return abilities.description}})}
+                        {abilitiesDescription.map((abilities)=>{if(builds.ability.toLocaleLowerCase()===abilities.name.replace('-',' ').toLocaleLowerCase()){return abilities.description}})}
+            
                         </span>
                     </span>
                     </div>

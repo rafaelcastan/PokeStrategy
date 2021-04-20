@@ -72,6 +72,6 @@ export const BuildWrap = styled.div`
             position: absolute;
             bottom: 10px;
             text-decoration: none;
-            width:45vw;
+            width:30vw;
         }
 `;
