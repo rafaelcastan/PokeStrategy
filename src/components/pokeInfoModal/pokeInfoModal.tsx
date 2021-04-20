@@ -17,6 +17,7 @@ import PokemonsBattlingImg from '../pokemonsBattle/battleScene'
 import {Builds} from '../builds/builds'
 import {PokeEvolutionTree} from '../pokeTreeEvolution/poketree'
 import {TypeRelationsChart} from '../PokemonTypes/pokemontypes'
+import {MoveList} from '../MoveList/movelist'
 
 
 interface PokeInfoModalProps{
@@ -67,7 +68,7 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
             {pokemonInfo.abilities.map((abilities,index)=>{
                 return(
                     <div key={selectedPokemon+abilities.name+index}>
-                    <span className="tip" >{abilities.name}<span >{abilitiesDescription[index].description}</span></span>
+                    <span className="tip" >{abilities.name}<span >{abilitiesDescription[index]!==undefined && (abilitiesDescription[index].description)}</span></span>
                     {abilities.isHidden && <span>: Hidden</span>}
                     </div>
                 )
@@ -141,6 +142,7 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
             <PokemonsBattlingImg isShiny={checked}/> 
             </div>
             </ModalBody>
+            <MoveList/>
             </Container>
         </Modal>
     )

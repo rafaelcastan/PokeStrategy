@@ -1,4 +1,5 @@
 import {createContext, ReactNode, useEffect, useState, useContext} from 'react';
+import {Dex} from '@pkmn/dex';
 
 interface PokemonsInfoContextData{
     pokedex: PokedexProps[];
@@ -9,10 +10,14 @@ interface PokemonsInfoContextData{
     loading:boolean;
     abilitiesDescription:abilitiesDescription[];
     typesRelations:typeRelationsProps[];
+    selectedGen:number;
+    movesLearnSets:LearnSetsProps[];
     // GetMorePokemons:()=>void;
+    changeSelectedGen:(gen:number)=>void;
     capitalizeFirstLetter:(string)=>string;
     actualizePokedex:(string)=>void;
     SelectPokemon:(string)=>void;
+    moveType:({move,infoType}:moveType)=>string;
 
 }
 
@@ -77,7 +82,7 @@ interface Evolution{
 
 interface PokemonInfoProps{
     abilities:{name:string,isHidden:boolean}[],
-    moves:{name:string,version:{levelLearned:number,learnMethod:string, version:string}[]}[],
+    // moves:{name:string,version:{levelLearned:number,learnMethod:string, version:string}[]}[],
     stats:{name:string, value:number}[],
     description:string,
     types:{name:string,url:string}[]
@@ -88,6 +93,25 @@ interface PokemonInfoProps{
 interface PokemonEvolutionTreeProps{
     evolutionTree:{baseForm:Evolution,
     evolutions:Evolution[]}
+}
+
+interface typeRelationsProps{
+    doubleDamageFrom: string[],
+    doubleDamageTo: string[],
+    halfDamageFrom: string[],
+    halfDamageTo: string[],
+    noDamageFrom: string[],
+    noDamageTo: string[],
+}
+
+interface LearnSetsProps {
+    name:string,
+    learnMethods:string[]
+}
+
+interface moveType{
+    move:string,
+    infoType:'type' | 'category' | 'basePower' | 'accuracy'
 }
 
 const EvolutionInitialState = {
@@ -148,20 +172,13 @@ const PokemonEvolutionTreeError = {
 
 const PokeInfoInitialState = {
     abilities:[{name:'',isHidden:false}],
-            moves:[{name:'',version:[{levelLearned:0,learnMethod:'', version:''}]}],
+            // moves:[{name:'',version:[{levelLearned:0,learnMethod:'', version:''}]}],
             stats:[{name:'', value:0}],
             description:'',
             types:[{name:'', url:''}]
 }
 
-interface typeRelationsProps{
-    doubleDamageFrom: string[],
-    doubleDamageTo: string[],
-    halfDamageFrom: string[],
-    halfDamageTo: string[],
-    noDamageFrom: string[],
-    noDamageTo: string[],
-}
+
 
 let typeRelationsInitial = {
     doubleDamageFrom: [''],
@@ -172,7 +189,14 @@ let typeRelationsInitial = {
     noDamageTo: [''],
 }
 
+
+let LearnSetsInitialState ={
+    name:'',
+    learnMethods:['']
+}
+
 let abilityDescInitial = {name : '', description : ''}
+
 
 const PokemonsInfoContext = createContext<PokemonsInfoContextData>(
     {} as PokemonsInfoContextData
@@ -194,6 +218,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     const [typesRelations, setTypesRelations] = useState<typeRelationsProps[]>([{...typeRelationsInitial}]);
     const [abilitiesDescription, setAbilitiesDescription] = useState<abilitiesDescription[]>([])
     let abilityDescription : abilitiesDescription[] = [{...abilityDescInitial}];
+    const [selectedGen, setSelectedGen] = useState(0);
+    const [movesLearnSets, setMovesLeanSets] = useState<LearnSetsProps[]>([LearnSetsInitialState]);
     
     var PokeDB = require('pokedex-promise-v2');
     var PokeSearch = new PokeDB();
@@ -206,8 +232,47 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
             setLoading(true)
             GetPokemonInfo(Pokemon)
             GetPokemonEvolutionTree(Pokemon)
+            changeLearnSets(7)
             
         }
+    }
+
+    function changeSelectedGen(Gen:number){
+        setSelectedGen(Gen)
+        changeLearnSets(Gen)
+    }
+
+    function changeLearnSets(Gen:number){
+        let TempLearnSets : LearnSetsProps[] = [{...LearnSetsInitialState}];
+        Dex.forGen(Gen+1).learnsets.get(selectedPokemon).then((response)=>{
+            Object.entries(response.learnset).map((move, index)=>{
+                TempLearnSets[index] = {...LearnSetsInitialState}
+                TempLearnSets[index].name=move[0]
+                TempLearnSets[index].learnMethods=move[1]
+            })
+            return TempLearnSets
+        }).then((LearnSet)=>setMovesLeanSets(LearnSet))
+        .catch((error)=>console.log(error))
+    }
+
+    function moveType ({move,infoType}:moveType){
+        if(move!=='' && move!==undefined){
+        if(infoType==='type'){
+            return(Dex.moves.get(move).type)
+        }
+        
+        if (infoType==='category'){
+            return(Dex.moves.get(move).category)
+        }
+
+        if (infoType==='basePower'){
+            return(Dex.moves.get(move).basePower.toString())
+        }
+        
+        if (infoType==='accuracy'){
+            return(Dex.moves.get(move).accuracy.toString())
+        } 
+    }
     }
 
     
@@ -232,7 +297,7 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
         
         useEffect(()=>{
             let TempTypes : typeRelationsProps[] = [{...typeRelationsInitial}]
-            if(pokemonInfo!==undefined){
+            if(pokemonInfo!==undefined || pokemonInfo.types[0].name!==''){
             pokemonInfo.types.map((type,index1)=>{
             PokeSearch.getTypeByName(type.name)
             .then((response)=>{
@@ -279,6 +344,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
               .catch((error)=>console.log(error))
               
             })}},[pokemonInfo]) 
+
+
     
         
 
@@ -296,15 +363,15 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
                       tempPokeInfo.abilities = response.abilities.map(props=>{
                           return ({name:props.ability.name, isHidden:props.is_hidden})
                       })
-                      tempPokeInfo.moves = response.moves.map(props=>{
-                          return ({name:props.move.name, 
-                                   version:props.version_group_details
-                                   .map(props=>{
-                                    return({levelLearned:props.level_learned_at, 
-                                            learnMethod:props.move_learn_method.name,
-                                            version: props.version_group.name})
-                                   })})
-                      })
+                    //   tempPokeInfo.moves = response.moves.map(props=>{ ////Moves map, not being used
+                    //       return ({name:props.move.name, 
+                    //                version:props.version_group_details
+                    //                .map(props=>{
+                    //                 return({levelLearned:props.level_learned_at, 
+                    //                         learnMethod:props.move_learn_method.name,
+                    //                         version: props.version_group.name})
+                    //                })})
+                    //   })
                       return (tempPokeInfo)
                          
     })
@@ -495,7 +562,8 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
     return(
         <PokemonsInfoContext.Provider value={{pokedex, fullPokedex, capitalizeFirstLetter, 
                                               actualizePokedex, selectedPokemon, SelectPokemon, 
-                                              pokeTree, pokemonInfo, loading, typesRelations, abilitiesDescription}}>
+                                              pokeTree, pokemonInfo, loading, typesRelations, abilitiesDescription,
+                                              changeSelectedGen, selectedGen, movesLearnSets, moveType}}>
             {children}
         </PokemonsInfoContext.Provider>
     )

@@ -74,6 +74,7 @@ export const TypesRelationsBox = styled.div<TypesProps>`
 export const PokemonType = styled.div<TypesProps>`
     margin-top:0.5rem;
     background: ${props=>typesColors[props.types]};
+    padding:0.3rem;
     font-size:2rem;
     width:9rem;
     border-radius:1rem;
@@ -118,10 +119,10 @@ export const PokemonCard = styled.div<TypesPropsMixed>`
             display: block;
             z-index: 100;
             background: #f0f0f0 no-repeat 100% 5%;
-            left: 0px;
+            left: 50px;
             margin: 10px;
             position: absolute;
-            top: 10px;
+            bottom: 10px;
             text-decoration: none;
             width:45vw;
         }
@@ -216,6 +217,7 @@ export const ModalBody = styled.div`
     height:auto;
     justify-content:space-evenly;
     position:relative;
+    margin-bottom:4rem;
 `;
 
 

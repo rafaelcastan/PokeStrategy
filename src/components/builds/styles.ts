@@ -16,6 +16,7 @@ export const StyledButtons = styled.button<ButtonProps>`
         background:${(props)=>props.isActive 
         ? transparentize(0.2, '#33CC95') 
         : '#DCDCDC'};
+        padding:0.5rem 1rem;
 
         :hover{
         cursor: pointer;

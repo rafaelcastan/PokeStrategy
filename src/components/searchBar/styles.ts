@@ -78,11 +78,21 @@ export const Container = styled.form<ContainerProps>`
         overflow:scroll;
         overflow-x: hidden;
 
+        
+
+
         @media (max-width:1021px){
             margin-left:0rem;
-            max-width:53%;
+            max-width:50%;
         }
 
+        @media (max-width:823px){
+                margin-right:1rem;
+                max-width:52.6%;
+                max-height:15rem;
+            }
+
+       
         div{
             display:flex;
             flex-direction:row;

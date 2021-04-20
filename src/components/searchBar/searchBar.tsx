@@ -130,7 +130,7 @@ export function SearchBar(){
                 {displaySugestion && (
                     <div className="Sugestions">
                         {fullPokedex.filter((name)=> name.indexOf(search.replace(/\s+/g, '').toLowerCase()) > -1 )//make the suggestion box only show pokemons that match the search and in alphabetical order
-                        .sort((primeiroNome, segundoNome) => primeiroNome.localeCompare(segundoNome))
+                        .sort((primeiroNome, segundoNome) => primeiroNome.localeCompare(segundoNome)).splice(0, 150)
                         .map((value, index) =>{
                             if(value.startsWith(search.replace(/\s+/g, '').toLowerCase().slice(0,search.length))){
                             return( <div

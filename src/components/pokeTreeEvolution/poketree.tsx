@@ -1,8 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback} from 'react';
 
 import {EvolutionTree} from './styles'
 import { usePokemonsInfo } from '../../hooks/PokeContext';
 import { usePokemonsImg } from '../../hooks/PokeImages';
+import {Dex} from '@pkmn/dex'
 
 
 interface EvolutionsMethodsProps{
@@ -26,7 +27,7 @@ interface EvolutionsMethodsProps{
 }
 
 export function PokeEvolutionTree() {
-    const {selectedPokemon, pokemonInfo, capitalizeFirstLetter, pokeTree, SelectPokemon} =usePokemonsInfo();
+    const {selectedPokemon, changeSelectedGen, pokeTree, SelectPokemon} =usePokemonsInfo();
     const {GetPokemonImg, getItemImg} = usePokemonsImg();
     const BasePokemon = "Don't change while Open" //using this to made the pokeTree not reender on click
 
@@ -83,7 +84,9 @@ export function PokeEvolutionTree() {
             shed+="Have Nincada in your party, as well as one additional open slot (so, a total of five or fewer Pokémon in your party), and at least one PokéBall in your bag. Then, evolve Nincada into Ninjask by raising it to level 20. You'll find a Shedinja added to your party in addition to the Ninjask once it has evolved."
         }
         if(methods.trigger==='other'){
-            shed+="Get three critical hits in a single battle"
+            if (selectedPokemon==="farfetchd"){
+                shed+="Get three critical hits in a single battle"
+            }
         }
         if(methods.partySpecies!==null){
             Fullmethod+=`with a ${methods.partySpecies.name} in party`
@@ -178,6 +181,7 @@ export function PokeEvolutionTree() {
                             </span>
                             </div>
                             </div>
+                            
                             </>
                         )
                     })}                    

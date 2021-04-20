@@ -17,7 +17,7 @@ interface DefenseTypesProps{
 
 export function TypeRelationsChart (){
 
-    const {pokemonInfo, capitalizeFirstLetter, typesRelations, abilitiesDescription} =usePokemonsInfo();
+    const {pokemonInfo, capitalizeFirstLetter, typesRelations, selectedPokemon} =usePokemonsInfo();
 
     let TypeRelationsChartBuilder =   useCallback(()=>{
         const [isAtack, setIsAtack] = useState(false);
@@ -216,17 +216,24 @@ export function TypeRelationsChart (){
                                 )
                         })}
                         </div>
-                        <span> Takes &frac12; damage from:</span>
-                       <div className="TypesAdvantageBox">
-                       {DefenseTypesRelations.halfDamageFrom.map((receiveHalfDamageFrom,index)=>{
-                           return(
-                           <PokemonTypeRelations types={receiveHalfDamageFrom} 
-                           key={receiveHalfDamageFrom+index}>
-                           {capitalizeFirstLetter(receiveHalfDamageFrom)}
-                           </PokemonTypeRelations>
-                           )
-                       })}
+                        {DefenseTypesRelations.halfDamageFrom[0]!=='' && (
+                            <>
+                            <span> Takes &frac12; damage from:</span>
+                            <div className="TypesAdvantageBox">
+                            {DefenseTypesRelations.halfDamageFrom.map((receiveHalfDamageFrom,index)=>{
+                                return(
+                            <PokemonTypeRelations types={receiveHalfDamageFrom} 
+                            key={receiveHalfDamageFrom+index}>
+                            {capitalizeFirstLetter(receiveHalfDamageFrom)}
+                            </PokemonTypeRelations>
+                            )
+                        })}
                        </div>
+
+                            </>
+                            
+                        )}
+                        
                        {(DefenseTypesRelations.quarterDamageFrom.length>0) && (
                            <>
                            <span> Takes &frac14; damage from:</span>
@@ -242,7 +249,7 @@ export function TypeRelationsChart (){
                            </div>
                            </>
                        )}
-                       {(DefenseTypesRelations.noDamageFrom[0]!=='') && (
+                       {(DefenseTypesRelations.noDamageFrom[0]!=='' && DefenseTypesRelations.noDamageFrom[0]!==undefined)  && (
                            <>
                            <span> Takes 0 damage from:</span>
                            <div className="TypesAdvantageBox">
@@ -265,7 +272,7 @@ export function TypeRelationsChart (){
             </TypesChart>
             )
     
-        },[typesRelations])
+        },[typesRelations, selectedPokemon])
 
     return(
         <TypeRelationsChartBuilder/>

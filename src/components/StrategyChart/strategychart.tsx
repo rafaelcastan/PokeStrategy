@@ -1,7 +1,8 @@
 import {BuildWrap} from './styles';
 import {usePokemonStrategy} from '../../hooks/Strategy';
 import { usePokemonsInfo } from '../../hooks/PokeContext';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {Icons} from '@pkmn/img';
 
 interface StrategyChartProps{
     selectedGen:number,
@@ -9,14 +10,11 @@ interface StrategyChartProps{
 }
 
 export function StrategyChart({selectedGen,format}:StrategyChartProps){
-    const {getStrategy, itensDescription, naturesDescription} = usePokemonStrategy()
+    const {getStrategy, itensDescription, naturesDescription, getMoveDescription} = usePokemonStrategy()
     const {selectedPokemon, capitalizeFirstLetter, abilitiesDescription} =usePokemonsInfo();
     const ImgUrl= "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/"
     let pokemonbuild = getStrategy({gen:selectedGen,format:format,pokemon:capitalizeFirstLetter(selectedPokemon)})
     const [haveUpdate, setHaveUpdate] = useState(false)
-    
-
-    console.log(itensDescription)
 
     useEffect(()=>{
         setHaveUpdate(!haveUpdate)
@@ -25,6 +23,7 @@ export function StrategyChart({selectedGen,format}:StrategyChartProps){
    return(
        <>
            {pokemonbuild.map((builds,index)=>{
+               const itemIcon = React.createElement('span',{style:Icons.getItem(builds.item).css});
                return(
                 <BuildWrap key={builds.name+index+'20'}>              
                <div className="BuildBody">
@@ -32,7 +31,14 @@ export function StrategyChart({selectedGen,format}:StrategyChartProps){
                 <span className="BuildName">Build name: {builds.name}</span>
                {builds.moves.map((move,index)=>{
                 return(
-                <span key={move+index}>Move {index+1}: {move}</span>
+                    <div key={move+index} style={{marginBottom:"0.5rem"}}>
+                <span style={{marginRight:"0.5rem"}}>Move {index+1}:</span>
+                    <span className="tip" >{move}
+                        <span>
+                            {getMoveDescription(move)}
+                        </span>
+                    </span>
+                    </div>
                 )
                 })}
                 </div>
@@ -45,7 +51,7 @@ export function StrategyChart({selectedGen,format}:StrategyChartProps){
                             {itensDescription.map((itens)=>{if(builds.item===itens.name){return itens.description}})}
                         </span>
                     </span>
-                    <img key={index} src={`${ImgUrl+builds.item.toLowerCase().replaceAll(' ','-')}.png`}/>
+                    {itemIcon}
                     </div>
                     )}
                     {builds.ability!==undefined && (

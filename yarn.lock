@@ -341,6 +341,30 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/context-base/-/context-base-0.14.0.tgz#c67fc20a4d891447ca1a855d7d70fa79a3533001"
   integrity sha512-sDOAZcYwynHFTbLo6n8kIbLiVF3a3BLkrmehJUyEbT9F+Smbi47kLGS2gG2g0fjBLR/Lr1InPD7kXL7FaTqEkw==
 
+"@pkmn/dex-types@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@pkmn/dex-types/-/dex-types-0.4.0.tgz#5633d322112b6b31331ba14725e71e7eb4340e59"
+  integrity sha512-VAbkC4/g57BCcl99+6LFYxxMpjttOE5oTZlhuRHmwKBBucCEl/UaufWAQZGRfKxV0wNuIF4hzwU40nFeJSmccA==
+  dependencies:
+    "@pkmn/types" "^2.0.0"
+
+"@pkmn/dex@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@pkmn/dex/-/dex-0.4.0.tgz#188799df623f13a95a33b53ea108ba3fad705704"
+  integrity sha512-Er0IeY55XBVxys6d7c021/ebkkjCIDkOk7NHMlAwl3yx0lvLJ3DzT6IRCKL6xp+7x6Vi6/mwMOkd1Hh+N9nMmw==
+  dependencies:
+    "@pkmn/dex-types" "^0.4.0"
+
+"@pkmn/img@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@pkmn/img/-/img-0.1.3.tgz#a91bf11dd5017fa464b7719da07489b2371020a0"
+  integrity sha512-tNi056Pp7gVzFtNMOHwslStw/yqiyY0OqZxm2SzLAzVYa4zaffvzUyxDeZTr37WfMvapY6WrX+qdPcYS046Wmg==
+
+"@pkmn/types@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@pkmn/types/-/types-2.0.0.tgz#54a8775dd6896524e07388c9daafda037b1c7b6d"
+  integrity sha512-4Yoen3lNQDjiPALK+NP4AL7N2Mbbrw31LD2a/onSoPeq9S8zeW5Ove6HsBSgZyjkNQwCwVPHbqcIwoli7DjfyQ==
+
 "@scarf/scarf@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@scarf/scarf/-/scarf-1.1.0.tgz#b84b4a91cd938a688d36245b7a7db6fbc476a499"

@@ -14,8 +14,8 @@ interface AvailableGen {
 
 
 export function Builds (){
-    const {selectedPokemon, capitalizeFirstLetter} =usePokemonsInfo();
-    const {verifyAvailableGen, itensDescription} = usePokemonStrategy()
+    const {selectedPokemon, capitalizeFirstLetter, changeSelectedGen} =usePokemonsInfo();
+    const {verifyAvailableGen} = usePokemonStrategy()
     const smogonUrl = "https://www.smogon.com/dex/ss/pokemon/"
     
 
@@ -55,7 +55,8 @@ export function Builds (){
                     return(
                     <>
                     <StyledButtons isActive={index===activeGen} key={index} 
-                    onClick={()=>{setSelectedGen(index); 
+                    onClick={()=>{setSelectedGen(index);
+                                  changeSelectedGen(index);
                                   setFirstTimeRendered(false); 
                                   setActiveGen(index); 
                                   setFirstTimeRenderedStrategy(true)}}
@@ -66,7 +67,7 @@ export function Builds (){
                 else{counter++}
             })}
             </div>
-            { (firstTimeRendered && selectedGen!== mostNewGen) && (<>{setSelectedGen(mostNewGen)} {setActiveGen(mostNewGen)}</>)}
+            { (firstTimeRendered && selectedGen!== mostNewGen) && (<>{setSelectedGen(mostNewGen)} {changeSelectedGen(mostNewGen)} {setActiveGen(mostNewGen)}</>)}
             
             <p></p>
             <div className="FormatButtons">
@@ -94,6 +95,7 @@ export function Builds (){
             <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end'}}>
             <span>See more Builds and Info at:  
             <a href={`${smogonUrl}${selectedPokemon}`} 
+                style={{marginLeft:"0.5rem"}}
                target="_blank">Smogon.com</a>
             </span>
             

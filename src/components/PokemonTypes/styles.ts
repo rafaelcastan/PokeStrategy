@@ -119,6 +119,7 @@ export const TypesWrap = styled.div`
 export const PokemonTypeRelations = styled.div<TypesProps>`
     margin-top:0.5rem;
     background: ${props=>typesColors[props.types]};
+    padding:0.3rem;
     font-size:2rem;
     width:9rem;
     border-radius:1rem;

@@ -1,5 +1,6 @@
 import {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import {forFormat} from '@smogon/sets/'
+import {Dex} from '@pkmn/dex';
 
 interface PokemonStrategyProps {
     children: ReactNode;
@@ -10,6 +11,7 @@ interface PokemonStrategyData{
     getStrategy:({gen,format,pokemon}:getStrategyProps)=>PokemonBuild[];
     itensDescription:itemDescription[];
     naturesDescription:natureDescription[];
+    getMoveDescription:(move:string)=>string;
 }
 
 interface AvailableGen {
@@ -110,8 +112,11 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
     const [itensDescription, setItensDescription] = useState<itemDescription[]>([])
     const [naturesDescription, setNaturesDescription] = useState<natureDescription[]>([])
     
+    
     var PokeDB = require('pokedex-promise-v2');
     var PokeSearch = new PokeDB();
+
+    
 
     function getStrategy({gen,format,pokemon}:getStrategyProps){
         let pokemonBuild : PokemonBuild[] = [{...PokemonBuildInitial}]
@@ -193,22 +198,28 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
         pokemonBuildCompleted.map((build, index)=>{
             if(pokemonBuildCompleted[index].item!=='' && pokemonBuildCompleted[index].item!==undefined){
             itemDescription[index]={...itemDescriptionInitial}
-            PokeSearch.getItemByName(build.item.toLowerCase().replaceAll(' ','-'))
-            .then((response)=>{
-                response.flavor_text_entries.map((description)=>{
-                    if(description.language.name.includes('en')){
-                        itemDescription[index].description=description.text
-                    }
-                })
-                itemDescription[index].name=build.item
-                return(itemDescription)
-            }).then((response)=>{
-                setItensDescription(response)
-            }).catch((error)=>console.log(error))
+            itemDescription[index].description=Dex.items.get(build.item).desc
+            itemDescription[index].name=build.item
         }
         })
+        setItensDescription(itemDescription)
     }
     },[pokemonBuildCompleted])
+
+    function getMoveDescription(Move:string){
+        if(Move!==''&&Move!==undefined){
+            
+            if(Move.includes('Hidden Power')){
+                return(Dex.moves.get('Hidden Power').desc)
+            }
+            else{
+                return(Dex.moves.get(Move).desc)
+            }
+
+            
+        }
+        
+    }
 
 
 
@@ -396,7 +407,8 @@ export function PokemonStrategyProvider({children}:PokemonStrategyProps){
 
 
     return(
-        <PokemonStrategyContext.Provider value={{verifyAvailableGen, getStrategy, itensDescription, naturesDescription}}>
+        <PokemonStrategyContext.Provider value={{verifyAvailableGen, getStrategy, itensDescription, 
+                                                naturesDescription, getMoveDescription}}>
             {children}
         </PokemonStrategyContext.Provider>
     )

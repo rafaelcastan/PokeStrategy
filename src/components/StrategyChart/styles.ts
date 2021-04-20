@@ -48,7 +48,8 @@ export const BuildWrap = styled.div`
 
     span.tip {
             border-bottom: 1px dashed;
-            text-decoration: none
+            text-decoration: none;
+            margin-right:0.5rem;
         }
         
     span.tip:hover {
@@ -66,10 +67,10 @@ export const BuildWrap = styled.div`
             display: block;
             z-index: 100;
             background: #f0f0f0 no-repeat 100% 5%;
-            left: 0px;
+            left: 50px;
             margin: 10px;
             position: absolute;
-            top: 10px;
+            bottom: 10px;
             text-decoration: none;
             width:45vw;
         }
