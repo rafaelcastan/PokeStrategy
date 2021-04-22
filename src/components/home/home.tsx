@@ -129,11 +129,11 @@ export function HomePage (){
 
 
     return (
-      <StyledLoader
-      active={!isScreenLandscape}
-      spinner = {<FontAwesomeIcon icon={faMobileAlt} size="6x" className="TurnPhone" ></FontAwesomeIcon>}
-      text='Turn the screen'
-      >
+      // <StyledLoader
+      // active={!isScreenLandscape}
+      // spinner = {<FontAwesomeIcon icon={faMobileAlt} size="6x" className="TurnPhone" ></FontAwesomeIcon>}
+      // text='Turn the screen'
+      // >
       <StyledLoader
       active={loading && !isPokeInfoModalOpen}
       spinner
@@ -168,6 +168,6 @@ export function HomePage (){
               </AutoSizer>)}
         </Container>
         </StyledLoader>
-        </StyledLoader>
+        // </StyledLoader>
       )
 }
