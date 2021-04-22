@@ -300,7 +300,7 @@ export function PokemonsInfoProvider({children}:PokemonsInfoProviderProps){
         
         useEffect(()=>{
             let TempTypes : typeRelationsProps[] = [{...typeRelationsInitial}]
-            if(pokemonInfo!==undefined || selectedPokemon!==''){
+            if(selectedPokemon!=='' && pokemonInfo.types[0].name!==""){
             pokemonInfo.types.map((type,index1)=>{
             PokeSearch.getTypeByName(type.name)
             .then((response)=>{

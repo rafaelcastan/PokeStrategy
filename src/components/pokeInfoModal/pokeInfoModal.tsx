@@ -29,7 +29,7 @@ interface PokeInfoModalProps{
 
 
 export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
-    const {selectedPokemon, pokemonInfo, capitalizeFirstLetter, typesRelations, abilitiesDescription} =usePokemonsInfo();
+    const {selectedPokemon, pokemonInfo, capitalizeFirstLetter, abilitiesDescription} =usePokemonsInfo();
     const {GetPokemonImg} = usePokemonsImg();
     const [checked, setChecked] = useState(false);
 
@@ -69,7 +69,8 @@ export function PokeInfoModal({isOpen, onRequestClose}:PokeInfoModalProps){
                 return(
                     <div key={selectedPokemon+abilities.name+index}>
                     <span className="tip" >{abilities.name.replace('-',' ')}<span >{abilitiesDescription[index]!==undefined && 
-                    (abilitiesDescription[index].description)}</span></span>
+                    (abilitiesDescription[index].description)}
+                    </span></span>
                     {abilities.isHidden && <span>: Hidden</span>}
                     </div>
                 )
