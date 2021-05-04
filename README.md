@@ -25,7 +25,10 @@ This project is a pokedex with some info about movesets and learnsets to help po
   
   - Defense and offense advantage:
   
-  ![image](https://user-images.githubusercontent.com/56899689/117062766-396a4780-acfa-11eb-82db-b8628a149fa2.png)
+  ![image](https://user-images.githubusercontent.com/56899689/117065523-02963080-acfe-11eb-8550-acbd3816fdcf.png)
+  
+  ![image](https://user-images.githubusercontent.com/56899689/117065623-1cd00e80-acfe-11eb-9149-bd2a7225c6d9.png)
+
   
   - Evolution tree, in game sprite, Movesets separeted by generation and format:
   
