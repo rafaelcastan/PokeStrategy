@@ -12,17 +12,27 @@ This project is a pokedex with some info about movesets and learnsets to help po
 
   ![image](https://user-images.githubusercontent.com/56899689/117062203-8d286100-acf9-11eb-9e5a-11cb93b1b123.png)
 
-  The search bar have an auto-complete function to help the user find the right pokemon:
+- The search bar have an auto-complete function to help the user find the right pokemon:
+  
+  
   ![image](https://user-images.githubusercontent.com/56899689/117062236-9d404080-acf9-11eb-9668-2a600f505c33.png)
 
 - After chosing a pokemon the user will see the infos on screen:
+
   - Pokemon name, abilities, pokemon types, base stats: 
+  
   ![image](https://user-images.githubusercontent.com/56899689/117062716-2a839500-acfa-11eb-913e-1c2e19ca9925.png)
-  - Defense and offense advantage
+  
+  - Defense and offense advantage:
+  
   ![image](https://user-images.githubusercontent.com/56899689/117062766-396a4780-acfa-11eb-82db-b8628a149fa2.png)
-  - Evolution tree, in game sprite, Movesets separeted by generation and format
+  
+  - Evolution tree, in game sprite, Movesets separeted by generation and format:
+  
   ![image](https://user-images.githubusercontent.com/56899689/117063158-d1683100-acfa-11eb-999f-4d72235c18d9.png)
-  - Pokemon moves learnset separeted by Generation
+  
+  - Pokemon moves learnset separeted by Generation:
+  
   ![image](https://user-images.githubusercontent.com/56899689/117063229-e5ac2e00-acfa-11eb-9280-39c2c8fe160a.png)
 
 - Take a look on the functional App at: [PokeStrategy](https://pokestrategy.vercel.app)
