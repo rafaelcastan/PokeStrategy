@@ -46,6 +46,7 @@ Project is created with:
 
 * React: 17.0.2
 * NextJs: 10.1.2
+* React-window: 1.8.6
 * Styled-components: 5.2.2
 * Polished: 4.1.1
 * @pkmn/dex: 0.4.0 - For pokemon infos.
